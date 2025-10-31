@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Paulimane</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/logo.png?v=2" type="image/png">
+</head>
+<body class="catalog-page">
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="Paulimane Logo">
+                    </a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html#inicio" class="nav-link">Início</a>
+                    <a href="index.html#sobre" class="nav-link">Sobre Nós</a>
+                    <a href="index.html#equipa" class="nav-link">Equipa</a>
+                    <a href="index.html#clientes" class="nav-link">Clientes</a>
+                    <a href="catalogo.html" class="nav-btn active">Catálogo</a>
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Catalog Header -->
+    <section class="catalog-header">
+        <div class="container">
+            <h1 class="page-title">Catálogo de Produtos</h1>
+            <p class="page-subtitle">Explore nossa seleção completa de ferragens e tubagens</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-category="all">Todos</button>
+                <button class="filter-btn" data-category="tubagens">Tubagens</button>
+                <button class="filter-btn" data-category="ferragens">Ferragens</button>
+                <button class="filter-btn" data-category="acessorios">Acessórios</button>
+                <button class="filter-btn" data-category="ferramentas">Ferramentas</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Pesquisar produtos...">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid" id="productsGrid">
+                <!-- Tubagens -->
+                <div class="product-card" data-category="tubagens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop" alt="Tubagem PVC">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Tubagem PVC</h3>
+                        <p class="product-description">Tubagens em PVC de alta resistência</p>
+                        <span class="product-category">Tubagens</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tubagens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop" alt="Tubagem Aço">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Tubagem Aço Inoxidável</h3>
+                        <p class="product-description">Tubagens em aço inoxidável para aplicações industriais</p>
+                        <span class="product-category">Tubagens</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="tubagens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?w=400&h=300&fit=crop" alt="Tubagem Cobre">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Tubagem Cobre</h3>
+                        <p class="product-description">Tubagens de cobre para instalações hidráulicas</p>
+                        <span class="product-category">Tubagens</span>
+                    </div>
+                </div>
+
+                <!-- Ferragens -->
+                <div class="product-card" data-category="ferragens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=300&fit=crop" alt="Parafusos">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Parafusos e Porcas</h3>
+                        <p class="product-description">Conjunto completo de parafusos e porcas</p>
+                        <span class="product-category">Ferragens</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="ferragens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=300&fit=crop" alt="Dobradiças">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Dobradiças</h3>
+                        <p class="product-description">Dobradiças de alta qualidade</p>
+                        <span class="product-category">Ferragens</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="ferragens">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop" alt="Fechaduras">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Fechaduras</h3>
+                        <p class="product-description">Sistemas de fechadura seguros</p>
+                        <span class="product-category">Ferragens</span>
+                    </div>
+                </div>
+
+                <!-- Acessórios -->
+                <div class="product-card" data-category="acessorios">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop" alt="Conectores">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Conectores</h3>
+                        <p class="product-description">Conectores para tubagens</p>
+                        <span class="product-category">Acessórios</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="acessorios">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Válvulas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Válvulas</h3>
+                        <p class="product-description">Válvulas de controle de fluxo</p>
+                        <span class="product-category">Acessórios</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="acessorios">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=300&fit=crop" alt="Juntas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Juntas e Vedantes</h3>
+                        <p class="product-description">Juntas de vedação profissionais</p>
+                        <span class="product-category">Acessórios</span>
+                    </div>
+                </div>
+
+                <!-- Ferramentas -->
+                <div class="product-card" data-category="ferramentas">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=300&fit=crop" alt="Chaves">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Conjunto de Chaves</h3>
+                        <p class="product-description">Chaves de diversos tamanhos</p>
+                        <span class="product-category">Ferramentas</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="ferramentas">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Alicates">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Alicates Profissionais</h3>
+                        <p class="product-description">Alicates de alta precisão</p>
+                        <span class="product-category">Ferramentas</span>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="ferramentas">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop" alt="Cortadores">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Cortadores de Tubagem</h3>
+                        <p class="product-description">Ferramentas de corte especializadas</p>
+                        <span class="product-category">Ferramentas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="images/logo.png" alt="Paulimane" class="footer-logo">
+                    <p class="footer-text">
+                        A melhor seleção em tubagens desde 2000
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contactos</h3>
+                    <p class="footer-text">Email: info@paulimane.pt</p>
+                    <p class="footer-text">Telefone: +351 XXX XXX XXX</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Navegação</h3>
+                    <a href="index.html#inicio" class="footer-link">Início</a>
+                    <a href="index.html#sobre" class="footer-link">Sobre Nós</a>
+                    <a href="index.html#equipa" class="footer-link">Equipa</a>
+                    <a href="catalogo.html" class="footer-link">Catálogo</a>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horário</h3>
+                    <p class="footer-text">Segunda - Sexta: 9h - 18h</p>
+                    <p class="footer-text">Sábado: 9h - 13h</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Paulimane - Ferragens Manuel Carmo & Azevedo, Lda. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/catalog.js"></script>
+</body>
+</html>
