@@ -178,3 +178,28 @@ document.querySelectorAll('section').forEach(section => {
     section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
     observer.observe(section);
 });
+
+// Contact Form Handler
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+        
+        // Criar o corpo do email
+        const emailBody = `Nome: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMensagem:%0D%0A${message}`;
+        
+        // Abrir o cliente de email do utilizador
+        window.location.href = `mailto:paulimane2000@gmail.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
+        
+        // Mostrar mensagem de confirmação
+        alert('O seu cliente de email será aberto. Por favor, envie a mensagem.');
+        
+        // Limpar o formulário
+        contactForm.reset();
+    });
+}
