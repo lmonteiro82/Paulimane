@@ -123,8 +123,8 @@ function showSuccessAndRedirect() {
     
     // Redirecionar após 1 segundo
     setTimeout(() => {
-        // Em produção, redirecionar para o dashboard
-        window.location.href = 'dashboard.html';
+        // Redirecionar para gestão de utilizadores
+        window.location.href = 'utilizadores.html';
     }, 1000);
 }
 
@@ -134,8 +134,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const rememberMe = localStorage.getItem('paulimane_remember');
     
     if (authToken || rememberMe) {
-        // User is already logged in, redirect to dashboard
-        // window.location.href = 'dashboard.html';
+        // User is already logged in, redirect to utilizadores
+        // window.location.href = 'utilizadores.html';
     }
     
     // Auto-fill username if remembered

@@ -1,0 +1,46 @@
+<?php
+/**
+ * API Pública - Produtos em Destaque
+ * Retorna os produtos em destaque para exibir na página inicial
+ */
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+
+require_once '../backoffice/config/database.php';
+
+try {
+    $db = getDBConnection();
+    
+    // Buscar produtos em destaque com JOIN (máximo 6)
+    $stmt = $db->query("
+        SELECT 
+            p.ID,
+            p.Nome,
+            p.Descricao,
+            p.Imagem,
+            c.Nome as CategoriaNome
+        FROM Destaques d
+        INNER JOIN Produtos p ON d.ProdutoID = p.ID
+        LEFT JOIN Categoria c ON p.CategoriaID = c.ID
+        ORDER BY d.ID ASC
+        LIMIT 6
+    ");
+    $destaques = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    http_response_code(200);
+    echo json_encode([
+        'success' => true,
+        'data' => $destaques
+    ], JSON_UNESCAPED_UNICODE);
+
+} catch (Exception $e) {
+    error_log("API Destaques Error: " . $e->getMessage());
+    
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erro ao carregar produtos em destaque'
+    ]);
+}
+?>

@@ -1,3 +1,71 @@
+<?php
+// Carregar configuração da base de dados
+require_once 'backoffice/config/database.php';
+
+// Buscar texto do Sobre Nós
+$sobreNosTexto = '';
+try {
+    $db = getDBConnection();
+    $stmt = $db->prepare("SELECT Texto FROM Textos WHERE Chave = 'sobrenos' LIMIT 1");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result) {
+        $sobreNosTexto = $result['Texto'];
+    } else {
+        // Texto padrão caso não exista na BD
+        $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens e tubagens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em tubagens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
+    }
+} catch (Exception $e) {
+    error_log("Erro ao carregar texto: " . $e->getMessage());
+    $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens e tubagens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em tubagens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
+}
+
+// Dividir o texto em parágrafos
+$paragrafos = explode("\n\n", $sobreNosTexto);
+
+// Buscar estatísticas
+$estatisticas = [
+    'numero1' => '23+',
+    'numero2' => '500+',
+    'numero3' => '100%',
+    'numero_texto1' => 'Anos de Experiência',
+    'numero_texto2' => 'Clientes Satisfeitos',
+    'numero_texto3' => 'Qualidade Garantida'
+];
+
+try {
+    $chaves = ['numero1', 'numero2', 'numero3', 'numero_texto1', 'numero_texto2', 'numero_texto3'];
+    foreach ($chaves as $chave) {
+        $stmt = $db->prepare("SELECT Texto FROM Textos WHERE Chave = :chave LIMIT 1");
+        $stmt->execute([':chave' => $chave]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $estatisticas[$chave] = $result['Texto'];
+        }
+    }
+} catch (Exception $e) {
+    error_log("Erro ao carregar estatísticas: " . $e->getMessage());
+}
+
+// Buscar membros da equipa
+$equipaMembers = [];
+try {
+    $stmt = $db->query("SELECT Imagem, Nome, Funcao FROM Equipa ORDER BY ID ASC");
+    $equipaMembers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    error_log("Erro ao carregar equipa: " . $e->getMessage());
+}
+
+// Buscar clientes
+$clientes = [];
+try {
+    $stmt = $db->query("SELECT imagem, Nome FROM Clientes ORDER BY ID ASC");
+    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    error_log("Erro ao carregar clientes: " . $e->getMessage());
+}
+?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -20,7 +88,7 @@
         <div class="container">
             <div class="nav-wrapper">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="index.php">
                         <img src="images/logo.png" alt="Paulimane Logo">
                     </a>
                 </div>
@@ -102,31 +170,23 @@
             </div>
             <div class="about-content">
                 <div class="about-card">
-                    <p class="about-text">
-                        A <strong class="text-primary">Paulimane - Ferragens Manuel Carmo & Azevedo, Lda</strong> é uma empresa 
-                        portuguesa dedicada à comercialização de ferragens e tubagens de alta qualidade desde o ano 2000.
-                    </p>
-                    <p class="about-text">
-                        Com mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções 
-                        completas em tubagens industriais e ferragens para os mais diversos sectores, sempre com 
-                        foco na excelência e satisfação dos nossos clientes.
-                    </p>
-                    <p class="about-text">
-                        A nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado 
-                        e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.
-                    </p>
+                    <?php foreach ($paragrafos as $paragrafo): ?>
+                        <?php if (trim($paragrafo)): ?>
+                            <p class="about-text"><?php echo nl2br(htmlspecialchars($paragrafo)); ?></p>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <div class="stat-number">23+</div>
-                            <div class="stat-label">Anos de Experiência</div>
+                            <div class="stat-number"><?php echo htmlspecialchars($estatisticas['numero1']); ?></div>
+                            <div class="stat-label"><?php echo htmlspecialchars($estatisticas['numero_texto1']); ?></div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">Clientes Satisfeitos</div>
+                            <div class="stat-number"><?php echo htmlspecialchars($estatisticas['numero2']); ?></div>
+                            <div class="stat-label"><?php echo htmlspecialchars($estatisticas['numero_texto2']); ?></div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Qualidade Garantida</div>
+                            <div class="stat-number"><?php echo htmlspecialchars($estatisticas['numero3']); ?></div>
+                            <div class="stat-label"><?php echo htmlspecialchars($estatisticas['numero_texto3']); ?></div>
                         </div>
                     </div>
                 </div>
@@ -147,48 +207,19 @@
             <div class="team-carousel-wrapper">
                 <div class="team-carousel-track">
                     <div class="team-carousel" id="teamCarousel">
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop" alt="Manuel Carmo">
-                            </div>
-                            <h3 class="team-name">Manuel Carmo</h3>
-                            <p class="team-role">Diretor Geral</p>
-                        </div>
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop" alt="Ana Azevedo">
-                            </div>
-                            <h3 class="team-name">Ana Azevedo</h3>
-                            <p class="team-role">Diretora Comercial</p>
-                        </div>
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop" alt="João Silva">
-                            </div>
-                            <h3 class="team-name">João Silva</h3>
-                            <p class="team-role">Gestor de Vendas</p>
-                        </div>
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop" alt="Maria Santos">
-                            </div>
-                            <h3 class="team-name">Maria Santos</h3>
-                            <p class="team-role">Responsável de Logística</p>
-                        </div>
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop" alt="Pedro Costa">
-                            </div>
-                            <h3 class="team-name">Pedro Costa</h3>
-                            <p class="team-role">Técnico Especializado</p>
-                        </div>
-                        <div class="team-member">
-                            <div class="team-image">
-                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" alt="Sofia Rodrigues">
-                            </div>
-                            <h3 class="team-name">Sofia Rodrigues</h3>
-                            <p class="team-role">Atendimento ao Cliente</p>
-                        </div>
+                        <?php if (empty($equipaMembers)): ?>
+                            <p style="text-align: center; color: #999; width: 100%;">Nenhum membro da equipa adicionado</p>
+                        <?php else: ?>
+                            <?php foreach ($equipaMembers as $member): ?>
+                                <div class="team-member">
+                                    <div class="team-image">
+                                        <img src="<?php echo htmlspecialchars($member['Imagem']); ?>" alt="<?php echo htmlspecialchars($member['Nome']); ?>" onerror="this.src='https://via.placeholder.com/400'">
+                                    </div>
+                                    <h3 class="team-name"><?php echo htmlspecialchars($member['Nome']); ?></h3>
+                                    <p class="team-role"><?php echo htmlspecialchars($member['Funcao']); ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -208,24 +239,16 @@
             <div class="clients-carousel-wrapper">
                 <div class="clients-carousel-track">
                     <div class="clients-carousel" id="clientsCarousel">
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 1">
-                        </div>
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 2">
-                        </div>
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 3">
-                        </div>
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 4">
-                        </div>
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 5">
-                        </div>
-                        <div class="client-logo">
-                            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=100&fit=crop" alt="Cliente 6">
-                        </div>
+                        <?php if (empty($clientes)): ?>
+                            <p style="text-align: center; color: #999; width: 100%;">Nenhum cliente adicionado</p>
+                        <?php else: ?>
+                            <?php foreach ($clientes as $cliente): ?>
+                                <div class="client-logo">
+                                    <img src="<?php echo htmlspecialchars($cliente['imagem']); ?>" alt="<?php echo htmlspecialchars($cliente['Nome']); ?>" onerror="this.src='https://via.placeholder.com/200x100'">
+                                    <p class="client-name"><?php echo htmlspecialchars($cliente['Nome']); ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -241,59 +264,11 @@
                 <p class="section-description">Alguns produtos do nosso catálogo</p>
             </div>
 
-            <div class="featured-mosaic">
-                <!-- Grande à esquerda -->
-                <a href="catalogo.html" class="featured-card mosaic-left">
-                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&h=900&fit=crop" alt="Tubagem PVC">
-                    <div class="featured-info">
-                        <h3 class="featured-name">Tubagem PVC</h3>
-                        <p class="featured-desc">Resistência e versatilidade para instalações</p>
-                    </div>
-                </a>
-                <!-- Duas menores à direita -->
-                <div class="mosaic-right">
-                    <a href="catalogo.html" class="featured-card mosaic-top">
-                        <img src="https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?w=900&h=600&fit=crop" alt="Tubagem Aço Inox">
-                        <div class="featured-info">
-                            <h3 class="featured-name">Tubagem Aço Inox</h3>
-                            <p class="featured-desc">Durabilidade superior para uso industrial</p>
-                        </div>
-                    </a>
-                    <a href="catalogo.html" class="featured-card mosaic-bottom">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=900&h=600&fit=crop" alt="Tubagem Cobre">
-                        <div class="featured-info">
-                            <h3 class="featured-name">Tubagem Cobre</h3>
-                            <p class="featured-desc">Soluções para água quente e fria</p>
-                        </div>
-                    </a>
+            <div id="featuredProducts">
+                <!-- Produtos em destaque serão carregados dinamicamente -->
+                <div style="text-align: center; padding: 60px 20px; color: #999;">
+                    <p>A carregar produtos em destaque...</p>
                 </div>
-            </div>
-
-            <!-- Segunda linha: duas pequenas à esquerda, uma grande à direita -->
-            <div class="featured-mosaic featured-mosaic-alt" style="margin-top: 5%;">
-                <div class="mosaic-left-stack">
-                    <a href="catalogo.html" class="featured-card mosaic-top">
-                        <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=900&h=600&fit=crop" alt="Parafusos e Porcas">
-                        <div class="featured-info">
-                            <h3 class="featured-name">Parafusos e Porcas</h3>
-                            <p class="featured-desc">Fixação confiável para qualquer projeto</p>
-                        </div>
-                    </a>
-                    <a href="catalogo.html" class="featured-card mosaic-bottom">
-                        <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=900&h=600&fit=crop" alt="Fechaduras">
-                        <div class="featured-info">
-                            <h3 class="featured-name">Fechaduras</h3>
-                            <p class="featured-desc">Segurança com qualidade</p>
-                        </div>
-                    </a>
-                </div>
-                <a href="catalogo.html" class="featured-card mosaic-right-big">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1600&h=900&fit=crop" alt="Alicates Profissionais">
-                    <div class="featured-info">
-                        <h3 class="featured-name">Alicates Profissionais</h3>
-                        <p class="featured-desc">Precisão para o dia a dia</p>
-                    </div>
-                </a>
             </div>
 
             <div class="featured-cta">
@@ -353,6 +328,14 @@
                     <p class="footer-text">
                         A melhor seleção em tubagens desde 2000
                     </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/paulimane2000/" target="_blank" rel="noopener noreferrer" class="social-link" title="Siga-nos no Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            <span>Facebook</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h3 class="footer-title">Contactos</h3>

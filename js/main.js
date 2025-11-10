@@ -194,7 +194,7 @@ if (contactForm) {
         const emailBody = `Nome: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMensagem:%0D%0A${message}`;
         
         // Abrir o cliente de email do utilizador
-        window.location.href = `mailto:paulimane2000@gmail.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
+        window.location.href = `mailto:suporte@paulimane.pt?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
         
         // Mostrar mensagem de confirmação
         alert('O seu cliente de email será aberto. Por favor, envie a mensagem.');
@@ -203,3 +203,91 @@ if (contactForm) {
         contactForm.reset();
     });
 }
+
+// Carregar Produtos em Destaque
+async function loadFeaturedProducts() {
+    const container = document.getElementById('featuredProducts');
+    if (!container) return;
+    
+    try {
+        const response = await fetch('api/destaques.php');
+        const result = await response.json();
+        
+        if (result.success && result.data.length > 0) {
+            const products = result.data;
+            
+            // Renderizar produtos em mosaico (máximo 6)
+            let html = '';
+            
+            if (products.length >= 3) {
+                // Primeira linha: 1 grande + 2 pequenas
+                html += '<div class="featured-mosaic">';
+                html += `
+                    <a href="catalogo.html" class="featured-card mosaic-left">
+                        <img src="${products[0].Imagem}" alt="${products[0].Nome}" onerror="this.src='https://via.placeholder.com/1600x900?text=Sem+Imagem'">
+                        <div class="featured-info">
+                            <h3 class="featured-name">${products[0].Nome}</h3>
+                            <p class="featured-desc">${products[0].Descricao || 'Produto de qualidade'}</p>
+                        </div>
+                    </a>
+                    <div class="mosaic-right">
+                        <a href="catalogo.html" class="featured-card mosaic-top">
+                            <img src="${products[1].Imagem}" alt="${products[1].Nome}" onerror="this.src='https://via.placeholder.com/900x600?text=Sem+Imagem'">
+                            <div class="featured-info">
+                                <h3 class="featured-name">${products[1].Nome}</h3>
+                                <p class="featured-desc">${products[1].Descricao || 'Produto de qualidade'}</p>
+                            </div>
+                        </a>
+                        <a href="catalogo.html" class="featured-card mosaic-bottom">
+                            <img src="${products[2].Imagem}" alt="${products[2].Nome}" onerror="this.src='https://via.placeholder.com/900x600?text=Sem+Imagem'">
+                            <div class="featured-info">
+                                <h3 class="featured-name">${products[2].Nome}</h3>
+                                <p class="featured-desc">${products[2].Descricao || 'Produto de qualidade'}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>`;
+            }
+            
+            if (products.length >= 6) {
+                // Segunda linha: 2 pequenas + 1 grande
+                html += '<div class="featured-mosaic featured-mosaic-alt" style="margin-top: 5%;">';
+                html += `
+                    <div class="mosaic-left-stack">
+                        <a href="catalogo.html" class="featured-card mosaic-top">
+                            <img src="${products[3].Imagem}" alt="${products[3].Nome}" onerror="this.src='https://via.placeholder.com/900x600?text=Sem+Imagem'">
+                            <div class="featured-info">
+                                <h3 class="featured-name">${products[3].Nome}</h3>
+                                <p class="featured-desc">${products[3].Descricao || 'Produto de qualidade'}</p>
+                            </div>
+                        </a>
+                        <a href="catalogo.html" class="featured-card mosaic-bottom">
+                            <img src="${products[4].Imagem}" alt="${products[4].Nome}" onerror="this.src='https://via.placeholder.com/900x600?text=Sem+Imagem'">
+                            <div class="featured-info">
+                                <h3 class="featured-name">${products[4].Nome}</h3>
+                                <p class="featured-desc">${products[4].Descricao || 'Produto de qualidade'}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <a href="catalogo.html" class="featured-card mosaic-right-big">
+                        <img src="${products[5].Imagem}" alt="${products[5].Nome}" onerror="this.src='https://via.placeholder.com/1600x900?text=Sem+Imagem'">
+                        <div class="featured-info">
+                            <h3 class="featured-name">${products[5].Nome}</h3>
+                            <p class="featured-desc">${products[5].Descricao || 'Produto de qualidade'}</p>
+                        </div>
+                    </a>
+                </div>`;
+            }
+            
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Nenhum produto em destaque no momento.</p>';
+        }
+    } catch (error) {
+        console.error('Erro ao carregar produtos em destaque:', error);
+        container.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 40px;">Erro ao carregar produtos. Por favor, tente novamente.</p>';
+    }
+}
+
+// Carregar produtos em destaque ao carregar a página
+document.addEventListener('DOMContentLoaded', loadFeaturedProducts);

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Paulimane</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/logo.png?v=2" type="image/png">
+</head>
+<body class="catalog-page">
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.php">
+                        <img src="images/logo.png" alt="Paulimane Logo">
+                    </a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.php#inicio" class="nav-link">Início</a>
+                    <a href="index.php#sobre" class="nav-link">Sobre Nós</a>
+                    <a href="index.php#equipa" class="nav-link">Equipa</a>
+                    <a href="index.php#clientes" class="nav-link">Clientes</a>
+                    <a href="catalogo.html" class="nav-btn active">Catálogo</a>
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Products Header -->
+    <section class="catalog-header">
+        <div class="container">
+            <h1 class="page-title" id="categoryTitle">Produtos</h1>
+            <p class="page-subtitle" id="categorySubtitle">Explore nossa seleção de produtos</p>
+            <a href="catalogo.html" style="display: inline-block; margin-top: 20px; color: #ffffff; text-decoration: none; font-weight: 600;">
+                ← Voltar ao Catálogo
+            </a>
+        </div>
+    </section>
+
+    <!-- Search -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="search-box" style="max-width: 600px; margin: 0 auto;">
+                <input type="text" id="searchInput" placeholder="Pesquisar produtos...">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid" id="productsGrid">
+                <!-- Os produtos serão carregados dinamicamente da base de dados -->
+                <div style="text-align: center; padding: 60px 20px; color: #999;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 20px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <p>A carregar produtos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="images/logo.png" alt="Paulimane" class="footer-logo">
+                    <p class="footer-text">
+                        A melhor seleção em tubagens desde 2000
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contactos</h3>
+                    <p class="footer-text">Email: paulimane2000@gmail.com</p>
+                    <p class="footer-text">Telefone: 22 744 0671</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Navegação</h3>
+                    <a href="index.php#inicio" class="footer-link">Início</a>
+                    <a href="index.php#sobre" class="footer-link">Sobre Nós</a>
+                    <a href="index.php#equipa" class="footer-link">Equipa</a>
+                    <a href="catalogo.html" class="footer-link">Catálogo</a>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horário</h3>
+                    <p class="footer-text">Segunda - Sexta: 9h - 18h</p>
+                    <p class="footer-text">Sábado: 9h - 13h</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Paulimane - Ferragens Manuel Carmo & Azevedo, Lda. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/produtos.js"></script>
+</body>
+</html>

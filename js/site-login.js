@@ -4,7 +4,7 @@
 
 // Verificar se já está autenticado
 if (sessionStorage.getItem('paulimane_site_auth')) {
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
 }
 
 // Elementos
@@ -79,7 +79,7 @@ loginForm.addEventListener('submit', async (e) => {
             
             // Redirecionar após 1 segundo
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = 'index.php';
             }, 1000);
         } else {
             // Login falhou
