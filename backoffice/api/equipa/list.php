@@ -25,6 +25,13 @@ try {
     $stmt = $db->query("SELECT ID, Imagem, Nome, Funcao FROM Equipa ORDER BY ID ASC");
     $membros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
+    // Garantir que os caminhos das imagens começam com /
+    foreach ($membros as &$item) {
+        if (!empty($item['Imagem']) && $item['Imagem'][0] !== '/') {
+            $item['Imagem'] = '/' . $item['Imagem'];
+        }
+    }
+    
     http_response_code(200);
     echo json_encode([
         'success' => true,

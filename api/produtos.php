@@ -37,6 +37,13 @@ try {
     
     $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
+    // Garantir que os caminhos das imagens começam com /
+    foreach ($produtos as &$item) {
+        if (!empty($item['Imagem']) && $item['Imagem'][0] !== '/') {
+            $item['Imagem'] = '/' . $item['Imagem'];
+        }
+    }
+    
     http_response_code(200);
     echo json_encode([
         'success' => true,

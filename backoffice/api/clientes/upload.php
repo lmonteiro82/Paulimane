@@ -96,8 +96,8 @@ try {
     
     error_log("Imagem guardada com sucesso: " . $uploadPath);
     
-    // Retornar caminho relativo
-    $relativePath = 'backoffice/uploads/clientes/' . $filename;
+    // Retornar caminho absoluto a partir da raiz do domínio
+    $relativePath = '/backoffice/uploads/clientes/' . $filename;
     
     http_response_code(200);
     echo json_encode([

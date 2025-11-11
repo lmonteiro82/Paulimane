@@ -64,7 +64,7 @@ try {
     
     // Mover arquivo
     if (move_uploaded_file($file['tmp_name'], $filepath)) {
-        $relativePath = 'backoffice/uploads/produtos/' . $filename;
+        $relativePath = '/backoffice/uploads/produtos/' . $filename;
         
         http_response_code(200);
         echo json_encode([

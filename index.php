@@ -213,7 +213,14 @@ try {
                             <?php foreach ($equipaMembers as $member): ?>
                                 <div class="team-member">
                                     <div class="team-image">
-                                        <img src="<?php echo htmlspecialchars($member['Imagem']); ?>" alt="<?php echo htmlspecialchars($member['Nome']); ?>" onerror="this.src='https://via.placeholder.com/400'">
+                                        <?php 
+                                        $imagePath = $member['Imagem'];
+                                        // Garantir que o caminho começa com /
+                                        if (!empty($imagePath) && $imagePath[0] !== '/') {
+                                            $imagePath = '/' . $imagePath;
+                                        }
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="<?php echo htmlspecialchars($member['Nome']); ?>" onerror="this.src='https://via.placeholder.com/400'">
                                     </div>
                                     <h3 class="team-name"><?php echo htmlspecialchars($member['Nome']); ?></h3>
                                     <p class="team-role"><?php echo htmlspecialchars($member['Funcao']); ?></p>
@@ -244,7 +251,14 @@ try {
                         <?php else: ?>
                             <?php foreach ($clientes as $cliente): ?>
                                 <div class="client-logo">
-                                    <img src="<?php echo htmlspecialchars($cliente['imagem']); ?>" alt="<?php echo htmlspecialchars($cliente['Nome']); ?>" onerror="this.src='https://via.placeholder.com/200x100'">
+                                    <?php 
+                                    $imagePath = $cliente['imagem'];
+                                    // Garantir que o caminho começa com /
+                                    if (!empty($imagePath) && $imagePath[0] !== '/') {
+                                        $imagePath = '/' . $imagePath;
+                                    }
+                                    ?>
+                                    <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="<?php echo htmlspecialchars($cliente['Nome']); ?>" onerror="this.src='https://via.placeholder.com/200x100'">
                                     <p class="client-name"><?php echo htmlspecialchars($cliente['Nome']); ?></p>
                                 </div>
                             <?php endforeach; ?>
