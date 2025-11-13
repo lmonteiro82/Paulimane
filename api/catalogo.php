@@ -12,7 +12,7 @@ require_once '../backoffice/config/database.php';
 try {
     $db = getDBConnection();
     
-    $stmt = $db->query("SELECT ID, Imagem, Nome, Descricao FROM Categoria ORDER BY ID ASC");
+    $stmt = $db->query("SELECT ID, Imagem, Nome, Descricao, PDF FROM Categoria ORDER BY ID ASC");
     $catalogo = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     // Garantir que os caminhos das imagens começam com /

@@ -57,11 +57,12 @@ userForm.addEventListener('submit', async (e) => {
         nome: document.getElementById('userNameInput').value.trim(),
         email: document.getElementById('userEmail').value.trim(),
         password: document.getElementById('userPassword').value,
+        nivel: document.getElementById('userNivel').value,
         ativo: document.getElementById('userStatus').value
     };
 
     // Validações
-    if (!formData.nome || !formData.email) {
+    if (!formData.nome || !formData.email || !formData.nivel) {
         showError('Por favor, preencha todos os campos obrigatórios');
         return;
     }
@@ -162,10 +163,14 @@ function renderUsers(users) {
         
         const statusClass = user.Ativo == 1 ? 'status-active' : 'status-inactive';
         const statusText = user.Ativo == 1 ? 'Ativo' : 'Inativo';
+        
+        const nivelText = user.Nivel == 1 ? 'Nível 1' : user.Nivel == 2 ? 'Nível 2' : 'Nível 3';
+        const nivelClass = user.Nivel == 3 ? 'nivel-admin' : user.Nivel == 2 ? 'nivel-editor' : 'nivel-basico';
 
         tr.innerHTML = `
             <td><strong>${escapeHtml(user.Nome)}</strong></td>
             <td>${escapeHtml(user.Email)}</td>
+            <td><span class="status-badge ${nivelClass}">${nivelText}</span></td>
             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
             <td>
                 <div class="action-buttons">
@@ -204,6 +209,7 @@ async function editUser(id) {
             document.getElementById('userEmail').value = data.user.Email;
             document.getElementById('userPassword').value = '';
             document.getElementById('userPassword').required = false;
+            document.getElementById('userNivel').value = data.user.Nivel || 1;
             document.getElementById('userStatus').value = data.user.Ativo;
             
             passwordHelp.style.display = 'block';

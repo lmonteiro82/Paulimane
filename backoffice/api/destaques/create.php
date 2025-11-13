@@ -1,6 +1,6 @@
 <?php
 /**
- * API - Atualizar Item do Catálogo
+ * API - Criar Destaque
  */
 
 session_start();
@@ -22,61 +22,61 @@ require_once '../../config/database.php';
 try {
     $input = json_decode(file_get_contents('php://input'), true);
     
-    // Validar ID
-    if (empty($input['id'])) {
-        http_response_code(400);
-        echo json_encode([
-            'success' => false,
-            'message' => 'ID é obrigatório'
-        ]);
-        exit;
-    }
-    
     // Validar campos obrigatórios
-    if (empty($input['nome']) || empty($input['imagem']) || empty($input['pdf'])) {
+    if (empty($input['nome']) || empty($input['imagem'])) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Nome, imagem e PDF são obrigatórios'
+            'message' => 'Nome e imagem são obrigatórios'
         ]);
         exit;
     }
-    
-    $id = (int)$input['id'];
-    $nome = trim($input['nome']);
-    $descricao = isset($input['descricao']) ? trim($input['descricao']) : '';
-    $imagem = trim($input['imagem']);
-    $pdf = trim($input['pdf']);
     
     $db = getDBConnection();
     
+    // Verificar limite de 6 destaques
+    $stmt = $db->query("SELECT COUNT(*) as total FROM Destaques");
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result['total'] >= 6) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Limite de 6 destaques atingido. Remova um destaque antes de adicionar outro.'
+        ]);
+        exit;
+    }
+    
+    $nome = trim($input['nome']);
+    $descricao = isset($input['descricao']) ? trim($input['descricao']) : '';
+    $imagem = trim($input['imagem']);
+    
     $stmt = $db->prepare("
-        UPDATE Categoria 
-        SET Imagem = :imagem, Nome = :nome, Descricao = :descricao, PDF = :pdf
-        WHERE ID = :id
+        INSERT INTO Destaques (Imagem, Nome, Descricao) 
+        VALUES (:imagem, :nome, :descricao)
     ");
     
     $stmt->execute([
-        ':id' => $id,
         ':imagem' => $imagem,
         ':nome' => $nome,
-        ':descricao' => $descricao,
-        ':pdf' => $pdf
+        ':descricao' => $descricao
     ]);
     
-    http_response_code(200);
+    $id = $db->lastInsertId();
+    
+    http_response_code(201);
     echo json_encode([
         'success' => true,
-        'message' => 'Item do catálogo atualizado com sucesso'
+        'message' => 'Destaque adicionado com sucesso',
+        'id' => $id
     ]);
 
 } catch (Exception $e) {
-    error_log("Update Catalogo Error: " . $e->getMessage());
+    error_log("Create Destaque Error: " . $e->getMessage());
     
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Erro ao atualizar item do catálogo'
+        'message' => 'Erro ao adicionar destaque'
     ]);
 }
 ?>

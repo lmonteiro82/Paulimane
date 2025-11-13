@@ -26,6 +26,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once '../../config/database.php';
+require_once '../../config/check_access.php';
+
+// Verificar nível de acesso (apenas nível 3 pode gerenciar utilizadores)
+requireAPIAccess(3);
 
 try {
     // Ler dados do request

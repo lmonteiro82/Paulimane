@@ -72,7 +72,33 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Paulimane - A melhor seleção em tubagens desde 2000</title>
+    <!-- SEO Meta Tags -->
+    <title>Paulimane - Ferragens Manuel Carmo & Azevedo | Ferragens de Qualidade desde 2000</title>
+    <meta name="description" content="Paulimane - Ferragens Manuel Carmo & Azevedo, Lda. Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.">
+    <meta name="keywords" content="paulimane, ferragens, ferragens portugal, manuel carmo azevedo, ferragens qualidade, ferragens industriais, comercio ferragens">
+    <meta name="author" content="Paulimane - Ferragens Manuel Carmo & Azevedo, Lda">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Portuguese">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.paulimane.pt/">
+    <meta property="og:title" content="Paulimane - Ferragens Manuel Carmo & Azevedo">
+    <meta property="og:description" content="Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.">
+    <meta property="og:image" content="https://www.paulimane.pt/images/logo.png">
+    <meta property="og:locale" content="pt_PT">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.paulimane.pt/">
+    <meta property="twitter:title" content="Paulimane - Ferragens Manuel Carmo & Azevedo">
+    <meta property="twitter:description" content="Empresa portuguesa especializada em ferragens de alta qualidade desde 2000.">
+    <meta property="twitter:image" content="https://www.paulimane.pt/images/logo.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.paulimane.pt/">
+    
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,6 +107,26 @@ try {
     
     <!-- Sistema de Proteção - DEVE SER O PRIMEIRO SCRIPT -->
     <script src="js/auth-protection.js"></script>
+    
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Paulimane - Ferragens Manuel Carmo & Azevedo, Lda",
+        "image": "https://www.paulimane.pt/images/logo.png",
+        "description": "Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "PT"
+        },
+        "url": "https://www.paulimane.pt",
+        "telephone": "+351-XXX-XXX-XXX",
+        "priceRange": "$$",
+        "foundingDate": "2000",
+        "openingHours": "Mo-Fr 09:00-18:00"
+    }
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -125,7 +171,7 @@ try {
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title-large">NOVO CATÁLOGO<br>ONLINE</h1>
-                            <p class="hero-subtitle-large">A melhor seleção em tubagens e ferragens</p>
+                            <p class="hero-subtitle-large">A melhor seleção em ferragens</p>
                             <a href="catalogo.html" class="hero-cta-btn">
                                 <span class="cta-icon">→</span>
                                 <span>VER CATÁLOGO</span>

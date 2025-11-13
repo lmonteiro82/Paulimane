@@ -74,6 +74,9 @@ loginForm.addEventListener('submit', async (e) => {
             sessionStorage.setItem('paulimane_site_auth', data.data.token);
             sessionStorage.setItem('paulimane_site_user', JSON.stringify(data.data.user));
             
+            // Salvar também no localStorage para controle de acesso
+            localStorage.setItem('user_data', JSON.stringify(data.data.user));
+            
             // Mostrar mensagem de sucesso
             showSuccess();
             

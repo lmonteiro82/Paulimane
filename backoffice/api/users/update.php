@@ -26,13 +26,17 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once '../../config/database.php';
+require_once '../../config/check_access.php';
+
+// Verificar nível de acesso (apenas nível 3 pode gerenciar utilizadores)
+requireAPIAccess(3);
 
 try {
     // Ler dados do request
     $input = json_decode(file_get_contents('php://input'), true);
     
     // Validar campos obrigatórios
-    if (empty($input['id']) || empty($input['nome']) || empty($input['email'])) {
+    if (empty($input['id']) || empty($input['nome']) || empty($input['email']) || empty($input['nivel'])) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
@@ -44,7 +48,18 @@ try {
     $id = (int)$input['id'];
     $nome = trim($input['nome']);
     $email = trim($input['email']);
+    $nivel = (int)$input['nivel'];
     $ativo = isset($input['ativo']) ? (int)$input['ativo'] : 1;
+    
+    // Validar nível
+    if ($nivel < 1 || $nivel > 3) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Nível de acesso inválido'
+        ]);
+        exit;
+    }
     
     // Validar email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -100,7 +115,7 @@ try {
         
         $stmt = $db->prepare("
             UPDATE Utilizador 
-            SET Nome = :nome, Email = :email, Password = :password, Ativo = :ativo 
+            SET Nome = :nome, Email = :email, Password = :password, Nivel = :nivel, Ativo = :ativo 
             WHERE ID = :id
         ");
         
@@ -108,6 +123,7 @@ try {
             ':nome' => $nome,
             ':email' => $email,
             ':password' => $hashedPassword,
+            ':nivel' => $nivel,
             ':ativo' => $ativo,
             ':id' => $id
         ]);
@@ -115,13 +131,14 @@ try {
         // Atualizar sem alterar password
         $stmt = $db->prepare("
             UPDATE Utilizador 
-            SET Nome = :nome, Email = :email, Ativo = :ativo 
+            SET Nome = :nome, Email = :email, Nivel = :nivel, Ativo = :ativo 
             WHERE ID = :id
         ");
         
         $stmt->execute([
             ':nome' => $nome,
             ':email' => $email,
+            ':nivel' => $nivel,
             ':ativo' => $ativo,
             ':id' => $id
         ]);

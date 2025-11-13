@@ -1,16 +1,25 @@
 /**
- * Gestão de Produtos em Destaque
+ * Gestão de Destaques
  */
 
 // Elementos
 const destaquesGrid = document.getElementById('destaquesGrid');
 const modal = document.getElementById('modal');
+const destaqueForm = document.getElementById('destaqueForm');
 const btnAdd = document.getElementById('btnAdd');
 const btnCancel = document.getElementById('btnCancel');
-const produtosDisponiveis = document.getElementById('produtosDisponiveis');
+const modalTitle = document.getElementById('modalTitle');
+const destaqueId = document.getElementById('destaqueId');
+const imagemFile = document.getElementById('imagemFile');
+const imagePreview = document.getElementById('imagePreview');
+const imagemPath = document.getElementById('imagemPath');
+const nome = document.getElementById('nome');
+const descricao = document.getElementById('descricao');
 const successAlert = document.getElementById('successAlert');
 const errorAlert = document.getElementById('errorAlert');
 const warningAlert = document.getElementById('warningAlert');
+
+let uploadedImagePath = '';
 
 // Carregar destaques ao iniciar
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,7 +36,57 @@ btnCancel.addEventListener('click', () => {
     closeModal();
 });
 
-// Carregar produtos em destaque
+// Preview de imagem
+imagemFile.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Mostrar preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+    
+    // Upload imagem
+    await uploadImage(file);
+});
+
+// Submit formulário
+destaqueForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const id = destaqueId.value;
+    const nomeVal = nome.value.trim();
+    const descricaoVal = descricao.value.trim();
+    const imagemVal = imagemPath.value || uploadedImagePath;
+    
+    if (!nomeVal) {
+        showError('Por favor, preencha o nome do destaque');
+        return;
+    }
+    
+    if (!imagemVal) {
+        showError('Por favor, faça upload da imagem');
+        return;
+    }
+    
+    const data = {
+        nome: nomeVal,
+        descricao: descricaoVal,
+        imagem: imagemVal
+    };
+    
+    if (id) {
+        data.id = id;
+        await updateDestaque(data);
+    } else {
+        await createDestaque(data);
+    }
+});
+
+// Carregar destaques
 async function loadDestaques() {
     try {
         const response = await fetch('api/destaques/list.php');
@@ -38,20 +97,20 @@ async function loadDestaques() {
         }
     } catch (error) {
         console.error('Erro ao carregar destaques:', error);
-        showError('Erro ao carregar produtos em destaque');
+        showError('Erro ao carregar destaques');
     }
 }
 
-// Renderizar produtos em destaque
+// Renderizar destaques
 function renderDestaques(destaques) {
     if (destaques.length === 0) {
         destaquesGrid.innerHTML = `
-            <div class="empty-state" style="grid-column: 1/-1;">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #999;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 20px;">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                 </svg>
-                <p>Nenhum produto em destaque</p>
-                <p style="font-size: 14px; margin-top: 10px;">Adicione até 6 produtos para exibir na página inicial</p>
+                <p>Nenhum destaque adicionado</p>
+                <p style="font-size: 14px; margin-top: 10px;">Adicione até 6 destaques para exibir na página inicial</p>
             </div>
         `;
         return;
@@ -61,12 +120,11 @@ function renderDestaques(destaques) {
         <div class="featured-card">
             <img src="../${destaque.Imagem}" alt="${destaque.Nome}" class="featured-card-image" onerror="this.src='https://via.placeholder.com/280x200'">
             <div class="featured-card-content">
-                <span class="featured-category-badge">${destaque.CategoriaNome || 'Sem categoria'}</span>
                 <h3>${destaque.Nome}</h3>
                 <p>${destaque.Descricao || 'Sem descrição'}</p>
             </div>
             <div class="featured-card-actions">
-                <button class="btn-icon btn-delete" onclick="removeDestaque(${destaque.DestaqueID}, '${destaque.Nome.replace(/'/g, "\\'")}')">
+                <button class="btn-icon btn-delete" onclick="removeDestaque(${destaque.ID}, '${destaque.Nome.replace(/'/g, "\\'")}')">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -77,83 +135,92 @@ function renderDestaques(destaques) {
         </div>
     `).join('');
     
-    // Mostrar aviso se tiver 6 produtos
+    // Mostrar aviso se tiver 6 destaques
     if (destaques.length === 6) {
-        showWarning('Limite de 6 produtos em destaque atingido');
+        showWarning('Limite de 6 destaques atingido');
     }
 }
 
-// Abrir modal e carregar produtos disponíveis
-async function openModal() {
+// Upload imagem
+async function uploadImage(file) {
     try {
-        // Verificar se já tem 6 produtos
-        const responseDestaques = await fetch('api/destaques/list.php');
-        const resultDestaques = await responseDestaques.json();
+        const formData = new FormData();
+        formData.append('imagem', file);
         
-        if (resultDestaques.success && resultDestaques.data.length >= 6) {
-            showError('Limite de 6 produtos atingido. Remova um produto antes de adicionar outro.');
-            return;
-        }
-        
-        // Carregar produtos disponíveis
-        const response = await fetch('api/destaques/produtos-disponiveis.php');
-        const result = await response.json();
-        
-        if (result.success) {
-            if (result.data.length === 0) {
-                produtosDisponiveis.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Todos os produtos já estão em destaque ou não há produtos cadastrados.</p>';
-            } else {
-                produtosDisponiveis.innerHTML = result.data.map(produto => `
-                    <div class="product-select-card" onclick="addDestaque(${produto.ID})">
-                        <img src="../${produto.Imagem}" alt="${produto.Nome}" onerror="this.src='https://via.placeholder.com/250x150'">
-                        <h4>${produto.Nome}</h4>
-                        <p>${produto.CategoriaNome || 'Sem categoria'}</p>
-                    </div>
-                `).join('');
-            }
-            modal.classList.add('show');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        showError('Erro ao carregar produtos disponíveis');
-    }
-}
-
-// Fechar modal
-function closeModal() {
-    modal.classList.remove('show');
-}
-
-// Adicionar produto aos destaques
-async function addDestaque(produtoId) {
-    try {
-        const response = await fetch('api/destaques/add.php', {
+        const response = await fetch('api/destaques/upload.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ produtoId })
+            body: formData
         });
         
         const result = await response.json();
         
         if (result.success) {
-            showSuccess('Produto adicionado aos destaques com sucesso');
-            closeModal();
-            loadDestaques();
+            uploadedImagePath = result.path;
+            imagemPath.value = result.path;
+            showSuccess('Imagem enviada com sucesso');
         } else {
-            showError(result.message || 'Erro ao adicionar produto aos destaques');
+            showError(result.message || 'Erro ao enviar imagem');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showError('Erro ao adicionar produto aos destaques');
+        showError('Erro ao enviar imagem');
     }
 }
 
-// Remover produto dos destaques
-async function removeDestaque(id, nomeProduto) {
-    if (!confirm(`Tem certeza que deseja remover "${nomeProduto}" dos destaques?`)) return;
+// Criar destaque
+async function createDestaque(data) {
+    try {
+        const response = await fetch('api/destaques/create.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showSuccess('Destaque adicionado com sucesso');
+            closeModal();
+            loadDestaques();
+        } else {
+            showError(result.message || 'Erro ao adicionar destaque');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showError('Erro ao adicionar destaque');
+    }
+}
+
+// Atualizar destaque
+async function updateDestaque(data) {
+    try {
+        const response = await fetch('api/destaques/update.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showSuccess('Destaque atualizado com sucesso');
+            closeModal();
+            loadDestaques();
+        } else {
+            showError(result.message || 'Erro ao atualizar destaque');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showError('Erro ao atualizar destaque');
+    }
+}
+
+// Remover destaque
+async function removeDestaque(id, nomeDestaque) {
+    if (!confirm(`Tem certeza que deseja remover "${nomeDestaque}" dos destaques?`)) return;
     
     try {
-        const response = await fetch('api/destaques/remove.php', {
+        const response = await fetch('api/destaques/delete.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id })
@@ -162,15 +229,46 @@ async function removeDestaque(id, nomeProduto) {
         const result = await response.json();
         
         if (result.success) {
-            showSuccess('Produto removido dos destaques com sucesso');
+            showSuccess('Destaque removido com sucesso');
             loadDestaques();
         } else {
-            showError(result.message || 'Erro ao remover produto dos destaques');
+            showError(result.message || 'Erro ao remover destaque');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showError('Erro ao remover produto dos destaques');
+        showError('Erro ao remover destaque');
     }
+}
+
+// Abrir modal
+async function openModal() {
+    // Verificar se já tem 6 destaques
+    try {
+        const response = await fetch('api/destaques/list.php');
+        const result = await response.json();
+        
+        if (result.success && result.data.length >= 6) {
+            showError('Limite de 6 destaques atingido. Remova um destaque antes de adicionar outro.');
+            return;
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+    
+    destaqueId.value = '';
+    nome.value = '';
+    descricao.value = '';
+    imagemPath.value = '';
+    imagemFile.value = '';
+    imagePreview.style.display = 'none';
+    uploadedImagePath = '';
+    modalTitle.textContent = 'Adicionar Destaque';
+    modal.classList.add('show');
+}
+
+// Fechar modal
+function closeModal() {
+    modal.classList.remove('show');
 }
 
 // Mostrar sucesso
@@ -201,5 +299,4 @@ function showWarning(message) {
 }
 
 // Expor funções globalmente
-window.addDestaque = addDestaque;
 window.removeDestaque = removeDestaque;

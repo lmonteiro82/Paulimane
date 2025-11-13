@@ -27,7 +27,7 @@ try {
     
     // Buscar todos os utilizadores
     $stmt = $db->prepare("
-        SELECT ID, Nome, Email, Ativo 
+        SELECT ID, Nome, Email, Nivel, Ativo 
         FROM Utilizador 
         ORDER BY Nome ASC
     ");

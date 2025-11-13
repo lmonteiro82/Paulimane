@@ -12,18 +12,15 @@ require_once '../backoffice/config/database.php';
 try {
     $db = getDBConnection();
     
-    // Buscar produtos em destaque com JOIN (máximo 6)
+    // Buscar destaques (máximo 6)
     $stmt = $db->query("
         SELECT 
-            p.ID,
-            p.Nome,
-            p.Descricao,
-            p.Imagem,
-            c.Nome as CategoriaNome
-        FROM Destaques d
-        INNER JOIN Produtos p ON d.ProdutoID = p.ID
-        LEFT JOIN Categoria c ON p.CategoriaID = c.ID
-        ORDER BY d.ID ASC
+            ID,
+            Nome,
+            Descricao,
+            Imagem
+        FROM Destaques
+        ORDER BY ID ASC
         LIMIT 6
     ");
     $destaques = $stmt->fetchAll(PDO::FETCH_ASSOC);

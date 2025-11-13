@@ -1,6 +1,6 @@
 <?php
 /**
- * API - Listar Catálogo
+ * API - Listar Produtos em Destaque
  */
 
 session_start();
@@ -22,11 +22,24 @@ require_once '../../config/database.php';
 try {
     $db = getDBConnection();
     
-    $stmt = $db->query("SELECT ID, Imagem, Nome, Descricao, PDF FROM Categoria ORDER BY ID ASC");
-    $catalogo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Buscar produtos em destaque com JOIN
+    $stmt = $db->query("
+        SELECT 
+            d.ID as DestaqueID,
+            d.ProdutoID,
+            p.Nome,
+            p.Descricao,
+            p.Imagem,
+            c.Nome as CategoriaNome
+        FROM Destaques d
+        INNER JOIN Produtos p ON d.ProdutoID = p.ID
+        LEFT JOIN Categoria c ON p.CategoriaID = c.ID
+        ORDER BY d.ID ASC
+    ");
+    $destaques = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     // Garantir que os caminhos das imagens começam com /
-    foreach ($catalogo as &$item) {
+    foreach ($destaques as &$item) {
         if (!empty($item['Imagem']) && $item['Imagem'][0] !== '/') {
             $item['Imagem'] = '/' . $item['Imagem'];
         }
@@ -35,16 +48,16 @@ try {
     http_response_code(200);
     echo json_encode([
         'success' => true,
-        'data' => $catalogo
+        'data' => $destaques
     ], JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
-    error_log("List Catalogo Error: " . $e->getMessage());
+    error_log("List Destaques Error: " . $e->getMessage());
     
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Erro ao carregar catálogo'
+        'message' => 'Erro ao carregar produtos em destaque'
     ]);
 }
 ?>

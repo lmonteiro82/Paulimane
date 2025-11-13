@@ -22,7 +22,7 @@ Sistema de gestão backoffice para o website da Paulimane com autenticação via
 
 ## 🔐 Credenciais de Acesso
 
-Todos os utilizadores têm a password: **paulimane2024**
+Todos os utilizadores têm a password: **paulimane2025**
 
 | Username    | Nível de Acesso | Email                      |
 |-------------|-----------------|----------------------------|

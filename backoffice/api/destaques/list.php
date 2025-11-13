@@ -1,6 +1,6 @@
 <?php
 /**
- * API - Listar Produtos em Destaque
+ * API - Listar Destaques
  */
 
 session_start();
@@ -22,19 +22,12 @@ require_once '../../config/database.php';
 try {
     $db = getDBConnection();
     
-    // Buscar produtos em destaque com JOIN
+    // Buscar destaques (máximo 6)
     $stmt = $db->query("
-        SELECT 
-            d.ID as DestaqueID,
-            d.ProdutoID,
-            p.Nome,
-            p.Descricao,
-            p.Imagem,
-            c.Nome as CategoriaNome
-        FROM Destaques d
-        INNER JOIN Produtos p ON d.ProdutoID = p.ID
-        LEFT JOIN Categoria c ON p.CategoriaID = c.ID
-        ORDER BY d.ID ASC
+        SELECT ID, Imagem, Nome, Descricao
+        FROM Destaques
+        ORDER BY ID ASC
+        LIMIT 6
     ");
     $destaques = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -57,7 +50,7 @@ try {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Erro ao carregar produtos em destaque'
+        'message' => 'Erro ao carregar destaques'
     ]);
 }
 ?>

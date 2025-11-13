@@ -64,7 +64,7 @@ try {
 
     // Preparar query para buscar utilizador (usando Email como username)
     $stmt = $db->prepare("
-        SELECT ID, Nome, Email, Password, Ativo 
+        SELECT ID, Nome, Email, Password, Nivel, Ativo 
         FROM Utilizador 
         WHERE Email = :email 
         LIMIT 1
@@ -125,6 +125,7 @@ try {
     $_SESSION['user_id'] = $user['ID'];
     $_SESSION['email'] = $user['Email'];
     $_SESSION['nome'] = $user['Nome'];
+    $_SESSION['user_nivel'] = isset($user['Nivel']) ? (int)$user['Nivel'] : 1;
     $_SESSION['token'] = $token;
     $_SESSION['login_time'] = time();
 
@@ -138,7 +139,8 @@ try {
             'user' => [
                 'id' => $user['ID'],
                 'email' => $user['Email'],
-                'nome' => $user['Nome']
+                'nome' => $user['Nome'],
+                'nivel' => isset($user['Nivel']) ? (int)$user['Nivel'] : 1
             ]
         ]
     ]);

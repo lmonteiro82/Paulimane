@@ -13,12 +13,16 @@ const catalogoId = document.getElementById('catalogoId');
 const imagemFile = document.getElementById('imagemFile');
 const imagePreview = document.getElementById('imagePreview');
 const imagemPath = document.getElementById('imagemPath');
+const pdfFile = document.getElementById('pdfFile');
+const pdfPath = document.getElementById('pdfPath');
+const pdfFileName = document.getElementById('pdfFileName');
 const nome = document.getElementById('nome');
 const descricao = document.getElementById('descricao');
 const successAlert = document.getElementById('successAlert');
 const errorAlert = document.getElementById('errorAlert');
 
 let uploadedImagePath = '';
+let uploadedPdfPath = '';
 
 // Carregar catálogo ao iniciar
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,6 +56,18 @@ imagemFile.addEventListener('change', async (e) => {
     await uploadImage(file);
 });
 
+// Upload de PDF
+pdfFile.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Mostrar nome do arquivo
+    pdfFileName.textContent = `Arquivo selecionado: ${file.name}`;
+    
+    // Upload PDF
+    await uploadPdf(file);
+});
+
 // Submit formulário
 catalogoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -60,6 +76,7 @@ catalogoForm.addEventListener('submit', async (e) => {
     const nomeVal = nome.value.trim();
     const descricaoVal = descricao.value.trim();
     const imagemVal = imagemPath.value || uploadedImagePath;
+    const pdfVal = pdfPath.value || uploadedPdfPath;
     
     if (!nomeVal) {
         showError('Por favor, preencha o nome do card');
@@ -71,10 +88,16 @@ catalogoForm.addEventListener('submit', async (e) => {
         return;
     }
     
+    if (!pdfVal) {
+        showError('Por favor, faça upload do PDF');
+        return;
+    }
+    
     const data = {
         nome: nomeVal,
         descricao: descricaoVal,
-        imagem: imagemVal
+        imagem: imagemVal,
+        pdf: pdfVal
     };
     
     if (id) {
@@ -157,6 +180,32 @@ async function uploadImage(file) {
     }
 }
 
+// Upload PDF
+async function uploadPdf(file) {
+    try {
+        const formData = new FormData();
+        formData.append('pdf', file);
+        
+        const response = await fetch('api/catalogo/upload-pdf.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            uploadedPdfPath = result.path;
+            pdfPath.value = result.path;
+            showSuccess('PDF enviado com sucesso');
+        } else {
+            showError(result.message || 'Erro ao enviar PDF');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showError('Erro ao enviar PDF');
+    }
+}
+
 // Criar card
 async function createCatalogo(data) {
     try {
@@ -222,6 +271,13 @@ async function editCatalogo(id) {
                 imagePreview.style.display = 'block';
                 uploadedImagePath = item.Imagem;
                 
+                pdfPath.value = item.PDF || '';
+                uploadedPdfPath = item.PDF || '';
+                if (item.PDF) {
+                    const pdfName = item.PDF.split('/').pop();
+                    pdfFileName.textContent = `PDF atual: ${pdfName}`;
+                }
+                
                 modalTitle.textContent = 'Editar Card';
                 modal.classList.add('show');
             }
@@ -265,6 +321,10 @@ function openModal() {
     imagemFile.value = '';
     imagePreview.style.display = 'none';
     uploadedImagePath = '';
+    pdfPath.value = '';
+    pdfFile.value = '';
+    pdfFileName.textContent = '';
+    uploadedPdfPath = '';
     modalTitle.textContent = 'Adicionar Card';
     modal.classList.add('show');
 }

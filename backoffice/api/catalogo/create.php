@@ -18,6 +18,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once '../../config/database.php';
+require_once '../../config/check_access.php';
+
+// Verificar nível de acesso (nível 2 ou superior)
+requireAPIAccess(2);
 
 try {
     $input = json_decode(file_get_contents('php://input'), true);
@@ -25,11 +29,11 @@ try {
     error_log("Create Catalogo - Input recebido: " . json_encode($input));
     
     // Validar campos obrigatórios
-    if (empty($input['nome']) || empty($input['imagem'])) {
+    if (empty($input['nome']) || empty($input['imagem']) || empty($input['pdf'])) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Nome e imagem são obrigatórios',
+            'message' => 'Nome, imagem e PDF são obrigatórios',
             'debug' => $input
         ]);
         exit;
@@ -38,20 +42,22 @@ try {
     $nome = trim($input['nome']);
     $descricao = isset($input['descricao']) ? trim($input['descricao']) : '';
     $imagem = trim($input['imagem']);
+    $pdf = trim($input['pdf']);
     
-    error_log("Create Catalogo - Nome: $nome, Descrição: $descricao, Imagem: $imagem");
+    error_log("Create Catalogo - Nome: $nome, Descrição: $descricao, Imagem: $imagem, PDF: $pdf");
     
     $db = getDBConnection();
     
     $stmt = $db->prepare("
-        INSERT INTO Categoria (Imagem, Nome, Descricao) 
-        VALUES (:imagem, :nome, :descricao)
+        INSERT INTO Categoria (Imagem, Nome, Descricao, PDF) 
+        VALUES (:imagem, :nome, :descricao, :pdf)
     ");
     
     $stmt->execute([
         ':imagem' => $imagem,
         ':nome' => $nome,
-        ':descricao' => $descricao
+        ':descricao' => $descricao,
+        ':pdf' => $pdf
     ]);
     
     $id = $db->lastInsertId();

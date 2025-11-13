@@ -196,6 +196,45 @@
         .empty-state svg {
             margin-bottom: 20px;
         }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="file"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #F26522;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .image-preview {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -254,15 +293,6 @@
                 <span>Categorias</span>
             </a>
 
-            <a href="produtos.html" class="nav-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-                <span>Produtos</span>
-            </a>
-
             <a href="destaques.html" class="nav-item active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -314,11 +344,11 @@
 
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                 <div>
-                    <h1>Produtos em Destaque</h1>
-                    <p>Gerir os 6 produtos exibidos na página inicial (máximo 6)</p>
+                    <h1>Destaques</h1>
+                    <p>Gerir os destaques exibidos na página inicial (máximo 6)</p>
                 </div>
                 <button class="btn-primary" id="btnAdd" style="width: auto;">
-                    + Adicionar Produto
+                    + Adicionar Destaque
                 </button>
             </div>
 
@@ -331,14 +361,30 @@
     <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2>Selecionar Produto para Destaque</h2>
-            <p style="color: #666; margin-bottom: 20px;">Escolha um produto para adicionar aos destaques</p>
-            
-            <div class="product-select-grid" id="produtosDisponiveis">
-                <!-- Produtos disponíveis serão inseridos aqui -->
-            </div>
+            <h2 id="modalTitle">Adicionar Destaque</h2>
+            <form id="destaqueForm">
+                <input type="hidden" id="destaqueId">
+                
+                <div class="form-group">
+                    <label>Imagem *</label>
+                    <input type="file" id="imagemFile" accept="image/*">
+                    <img id="imagePreview" class="image-preview" style="display:none;">
+                    <input type="hidden" id="imagemPath">
+                </div>
 
-            <button type="button" class="btn-secondary" id="btnCancel">Cancelar</button>
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" placeholder="Descrição opcional do destaque"></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn-secondary" id="btnCancel">Cancelar</button>
+            </form>
         </div>
     </div>
 

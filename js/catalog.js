@@ -22,17 +22,22 @@ async function loadProducts() {
 
 // Renderizar produtos (categorias)
 function renderProducts(products) {
-    productsGrid.innerHTML = products.map(product => `
-        <a href="produtos.html?categoria=${product.ID}&nome=${encodeURIComponent(product.Nome)}" class="product-card" data-category="all" style="text-decoration: none; color: inherit; cursor: pointer;">
-            <div class="product-image">
-                <img src="${product.Imagem}" alt="${product.Nome}" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+Imagem'">
-            </div>
-            <div class="product-info">
-                <h3 class="product-name">${product.Nome}</h3>
-                <p class="product-description">${product.Descricao || 'Clique para ver produtos'}</p>
-            </div>
-        </a>
-    `).join('');
+    productsGrid.innerHTML = products.map(product => {
+        // Sempre abrir o PDF em nova aba
+        const href = product.PDF ? `/${product.PDF}` : '#';
+        
+        return `
+            <a href="${href}" target="_blank" class="product-card" data-category="all" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div class="product-image">
+                    <img src="${product.Imagem}" alt="${product.Nome}" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+Imagem'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">${product.Nome}</h3>
+                    <p class="product-description">${product.Descricao || 'Clique para ver o catálogo'}</p>
+                </div>
+            </a>
+        `;
+    }).join('');
     
     // Atualizar referência aos cards
     productCards = document.querySelectorAll('.product-card');

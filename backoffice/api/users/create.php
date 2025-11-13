@@ -22,13 +22,17 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once '../../config/database.php';
+require_once '../../config/check_access.php';
+
+// Verificar nível de acesso (apenas nível 3 pode gerenciar utilizadores)
+requireAPIAccess(3);
 
 try {
     // Ler dados do request
     $input = json_decode(file_get_contents('php://input'), true);
     
     // Validar campos obrigatórios
-    if (empty($input['nome']) || empty($input['email']) || empty($input['password'])) {
+    if (empty($input['nome']) || empty($input['email']) || empty($input['password']) || empty($input['nivel'])) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
@@ -40,7 +44,18 @@ try {
     $nome = trim($input['nome']);
     $email = trim($input['email']);
     $password = $input['password'];
+    $nivel = (int)$input['nivel'];
     $ativo = isset($input['ativo']) ? (int)$input['ativo'] : 1;
+    
+    // Validar nível
+    if ($nivel < 1 || $nivel > 3) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Nível de acesso inválido'
+        ]);
+        exit;
+    }
     
     // Validar email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -82,14 +97,15 @@ try {
     
     // Inserir utilizador
     $stmt = $db->prepare("
-        INSERT INTO Utilizador (Nome, Email, Password, Ativo) 
-        VALUES (:nome, :email, :password, :ativo)
+        INSERT INTO Utilizador (Nome, Email, Password, Nivel, Ativo) 
+        VALUES (:nome, :email, :password, :nivel, :ativo)
     ");
     
     $stmt->execute([
         ':nome' => $nome,
         ':email' => $email,
         ':password' => $hashedPassword,
+        ':nivel' => $nivel,
         ':ativo' => $ativo
     ]);
     

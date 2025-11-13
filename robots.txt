@@ -1,0 +1,24 @@
+# Robots.txt para Paulimane - Ferragens Manuel Carmo & Azevedo, Lda
+
+User-agent: *
+Allow: /
+Allow: /catalogo.html
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /api/
+
+# Bloquear backoffice e áreas administrativas
+Disallow: /backoffice/
+Disallow: /login.html
+Disallow: /api/login.php
+Disallow: /api/logout.php
+
+# Bloquear arquivos temporários e backups
+Disallow: /*_old.html
+Disallow: /*_old.js
+Disallow: /*_old.php
+Disallow: /*.md
+
+# Sitemap
+Sitemap: https://www.paulimane.pt/sitemap.xml

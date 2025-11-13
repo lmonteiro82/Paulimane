@@ -1,14 +1,11 @@
 <?php
 /**
- * API - Obter Utilizador
- * Paulimane Backoffice
+ * API - Deletar Destaque
  */
 
 session_start();
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
 
 // Verificar autenticação
 if (!isset($_SESSION['user_id'])) {
@@ -23,53 +20,51 @@ if (!isset($_SESSION['user_id'])) {
 require_once '../../config/database.php';
 
 try {
+    $input = json_decode(file_get_contents('php://input'), true);
+    
     // Validar ID
-    if (!isset($_GET['id']) || empty($_GET['id'])) {
+    if (empty($input['id'])) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'ID do utilizador não fornecido'
+            'message' => 'ID é obrigatório'
         ]);
         exit;
     }
     
-    $id = (int)$_GET['id'];
+    $id = (int)$input['id'];
     
     $db = getDBConnection();
     
-    // Buscar utilizador
-    $stmt = $db->prepare("
-        SELECT ID, Nome, Email, Nivel, Ativo 
-        FROM Utilizador 
-        WHERE ID = :id 
-        LIMIT 1
-    ");
-    
+    // Verificar se o destaque existe
+    $stmt = $db->prepare("SELECT ID FROM Destaques WHERE ID = :id");
     $stmt->execute([':id' => $id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if (!$user) {
+    if (!$stmt->fetch()) {
         http_response_code(404);
         echo json_encode([
             'success' => false,
-            'message' => 'Utilizador não encontrado'
+            'message' => 'Destaque não encontrado'
         ]);
         exit;
     }
+    
+    // Deletar destaque
+    $stmt = $db->prepare("DELETE FROM Destaques WHERE ID = :id");
+    $stmt->execute([':id' => $id]);
     
     http_response_code(200);
     echo json_encode([
         'success' => true,
-        'user' => $user
+        'message' => 'Destaque removido com sucesso'
     ]);
 
 } catch (Exception $e) {
-    error_log("Get User Error: " . $e->getMessage());
+    error_log("Delete Destaque Error: " . $e->getMessage());
     
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Erro ao carregar utilizador'
+        'message' => 'Erro ao remover destaque'
     ]);
 }
 ?>
