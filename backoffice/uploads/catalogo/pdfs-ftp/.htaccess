@@ -1,0 +1,6 @@
+# Permitir acesso aos PDFs
+Options -Indexes
+<FilesMatch "\.pdf$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

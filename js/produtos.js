@@ -73,6 +73,16 @@ function setupSearch() {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
 
+            // Se o campo estiver vazio, mostrar todos os produtos
+            if (!searchTerm) {
+                productCards.forEach(card => {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                });
+                return;
+            }
+
             productCards.forEach(card => {
                 const productName = card.querySelector('.product-name').textContent.toLowerCase();
 

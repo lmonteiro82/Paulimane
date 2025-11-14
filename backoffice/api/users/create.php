@@ -46,6 +46,7 @@ try {
     $password = $input['password'];
     $nivel = (int)$input['nivel'];
     $ativo = isset($input['ativo']) ? (int)$input['ativo'] : 1;
+    $imagem = isset($input['imagem']) ? trim($input['imagem']) : '';
     
     // Validar nível
     if ($nivel < 1 || $nivel > 3) {
@@ -97,8 +98,8 @@ try {
     
     // Inserir utilizador
     $stmt = $db->prepare("
-        INSERT INTO Utilizador (Nome, Email, Password, Nivel, Ativo) 
-        VALUES (:nome, :email, :password, :nivel, :ativo)
+        INSERT INTO Utilizador (Nome, Email, Password, Nivel, Ativo, Imagem) 
+        VALUES (:nome, :email, :password, :nivel, :ativo, :imagem)
     ");
     
     $stmt->execute([
@@ -106,7 +107,8 @@ try {
         ':email' => $email,
         ':password' => $hashedPassword,
         ':nivel' => $nivel,
-        ':ativo' => $ativo
+        ':ativo' => $ativo,
+        ':imagem' => $imagem
     ]);
     
     $userId = $db->lastInsertId();

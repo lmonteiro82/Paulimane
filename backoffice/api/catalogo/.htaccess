@@ -1,0 +1,19 @@
+# Configurações específicas para upload de PDFs
+# Aumentar limites para permitir PDFs maiores
+
+<IfModule mod_php.c>
+    php_value upload_max_filesize 100M
+    php_value post_max_size 110M
+    php_value max_execution_time 600
+    php_value max_input_time 600
+    php_value memory_limit 512M
+</IfModule>
+
+# Para PHP 7.x e 8.x (CGI/FastCGI)
+<IfModule mod_fcgid.c>
+    FcgidMaxRequestLen 115343360
+</IfModule>
+
+# Configurações alternativas via ini_set
+php_flag file_uploads On
+php_value max_file_uploads 20

@@ -50,6 +50,7 @@ try {
     $email = trim($input['email']);
     $nivel = (int)$input['nivel'];
     $ativo = isset($input['ativo']) ? (int)$input['ativo'] : 1;
+    $imagem = isset($input['imagem']) ? trim($input['imagem']) : '';
     
     // Validar nível
     if ($nivel < 1 || $nivel > 3) {
@@ -115,7 +116,7 @@ try {
         
         $stmt = $db->prepare("
             UPDATE Utilizador 
-            SET Nome = :nome, Email = :email, Password = :password, Nivel = :nivel, Ativo = :ativo 
+            SET Nome = :nome, Email = :email, Password = :password, Nivel = :nivel, Ativo = :ativo, Imagem = :imagem 
             WHERE ID = :id
         ");
         
@@ -125,13 +126,14 @@ try {
             ':password' => $hashedPassword,
             ':nivel' => $nivel,
             ':ativo' => $ativo,
+            ':imagem' => $imagem,
             ':id' => $id
         ]);
     } else {
         // Atualizar sem alterar password
         $stmt = $db->prepare("
             UPDATE Utilizador 
-            SET Nome = :nome, Email = :email, Nivel = :nivel, Ativo = :ativo 
+            SET Nome = :nome, Email = :email, Nivel = :nivel, Ativo = :ativo, Imagem = :imagem 
             WHERE ID = :id
         ");
         
@@ -140,6 +142,7 @@ try {
             ':email' => $email,
             ':nivel' => $nivel,
             ':ativo' => $ativo,
+            ':imagem' => $imagem,
             ':id' => $id
         ]);
     }

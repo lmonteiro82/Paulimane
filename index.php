@@ -80,6 +80,7 @@ try {
     <meta name="robots" content="index, follow">
     <meta name="language" content="Portuguese">
     <meta name="revisit-after" content="7 days">
+    <meta name="google-site-verification" content="bQxVxDI0sXTp5oeTc5amF5Ec0a88MlHkdW1cxyqtNmI" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -167,7 +168,7 @@ try {
                         <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&h=900&fit=crop" alt="Paulimane">
                     </video>
                     -->
-                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&h=900&fit=crop" alt="Paulimane">
+                    <img src="https://scontent.fopo4-1.fna.fbcdn.net/v/t39.30808-6/489357416_1214569440671006_6624947103517476282_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=TmXZg8fWmM0Q7kNvwH6zIWP&_nc_oc=Adm11eorO-z-6SCymyOCAXg0-_YrYD_o5NTiMW1fnPkiVwmK6pGMnxqn8JuELXRTTAo&_nc_zt=23&_nc_ht=scontent.fopo4-1.fna&_nc_gid=MCPd9sTchrpduF_EQL2HGA&oh=00_Afiggrb1h7tUiPPWDa_MkkgEXtVlfEjDWxAT5PjFyj6H0A&oe=691C0C89" alt="Paulimane">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title-large">NOVO CATÁLOGO<br>ONLINE</h1>
@@ -181,7 +182,7 @@ try {
                 </div>
                 <!-- Slide 2: Imagem -->
                 <div class="carousel-slide">
-                    <img src="https://scontent.fopo5-1.fna.fbcdn.net/v/t39.30808-6/489357416_1214569440671006_6624947103517476282_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=qyXsTYsW5uEQ7kNvwGJCScw&_nc_oc=AdncMjun8JqEbLeX5CPyd26f48g6N6EXng1SoN432OVU7RORPpebQftcOu-HdIJNxZvCkdZz-N7ToaSEfemGLWWz&_nc_zt=23&_nc_ht=scontent.fopo5-1.fna&_nc_gid=HpEK8ls2EY2a8a6JswjWDg&oh=00_AfdMmGq-ikvP5cl8BJDYzxCj2dt6lnyU-cYFRkA5VZqiuQ&oe=69095F49" alt="Ferragens profissionais">
+                    <img src="https://scontent.fopo4-1.fna.fbcdn.net/v/t39.30808-6/530360053_1328686195925996_8822294292584945798_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=tdvZy4TahMcQ7kNvwFQfV-F&_nc_oc=AdmXcpzCrOBy5Hse2NJ3es5K6NOzUakJCWIAFiT2yTnvKv1PRACy4zw5128gNk5rNJI&_nc_zt=23&_nc_ht=scontent.fopo4-1.fna&_nc_gid=CerWu3F4Uv6CP_EuxHWWXQ&oh=00_Afgla1Job8iV8GLA9b5NSCjs18w0155bIAgnGrmcadTNlA&oe=691C0031" alt="Ferragens profissionais">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Qualidade Superior</h1>
@@ -192,7 +193,7 @@ try {
                 </div>
                 <!-- Slide 3: Imagem -->
                 <div class="carousel-slide">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=800&fit=crop" alt="Soluções Paulimane">
+                    <img src="https://scontent.fopo4-2.fna.fbcdn.net/v/t39.30808-6/488896532_1215477440580206_6563268766663959778_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HOpaRurs6d8Q7kNvwGMbIoo&_nc_oc=AdnBcY-SAVwPeZf1-Mcp4yoBtaZ9GuvkZQT_AJsWwSp6pCMH9KqObe6sqKz2TCyyIF0&_nc_zt=23&_nc_ht=scontent.fopo4-2.fna&_nc_gid=qDmIaNIS7ssK1llMS1ew1g&oh=00_Afib6hW5MWicYUsKOtyi4rYS4QuOkGFqs_YZ_yb-Lufspg&oe=691C1475" alt="Soluções Paulimane">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Soluções Completas</h1>
@@ -394,6 +395,12 @@ try {
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                             <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/paulimane_ferragens/" target="_blank" rel="noopener noreferrer" class="social-link" title="Siga-nos no Instagram" style="margin-left:10px; background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); color: #fff;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm6.5-2a1.5 1.5 0 11-3.001.001A1.5 1.5 0 0118.5 7z"/>
+                            </svg>
+                            <span>Instagram</span>
                         </a>
                     </div>
                 </div>

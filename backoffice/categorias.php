@@ -203,6 +203,265 @@ if ($nivel_usuario < 2) {
             background: #f8d7da;
             color: #721c24;
         }
+        
+        /* PDF Method Toggle */
+        .pdf-method-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .method-option {
+            flex: 1;
+            cursor: pointer;
+            margin: 0;
+        }
+        .method-option input[type="radio"] {
+            display: none;
+        }
+        .method-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: transparent;
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .method-option input[type="radio"]:checked + .method-label {
+            background: white;
+            color: #F26522;
+            box-shadow: 0 2px 8px rgba(242, 101, 34, 0.15);
+        }
+        .method-label svg {
+            flex-shrink: 0;
+        }
+        
+        /* PDF Section */
+        .pdf-section {
+            margin-top: 15px;
+        }
+        
+        /* Help Text */
+        .help-text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 8px;
+        }
+        .help-text code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }
+        
+        /* PDF Browser */
+        .pdf-browser {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .pdf-browser-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #6c757d;
+            padding: 40px 20px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #F26522;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* PDF File Card */
+        .pdf-file-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .pdf-file-card:hover {
+            border-color: #F26522;
+            background: #fff5f0;
+            transform: translateX(5px);
+        }
+        .pdf-file-card.selected {
+            border-color: #F26522;
+            background: #fff5f0;
+            box-shadow: 0 2px 8px rgba(242, 101, 34, 0.15);
+        }
+        .pdf-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #F26522 0%, #D95518 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .pdf-icon svg {
+            color: white;
+        }
+        .pdf-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .pdf-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .pdf-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .pdf-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        .pdf-empty svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+        
+        /* Selected File */
+        .selected-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .selected-file:empty {
+            display: none;
+        }
+        .selected-file svg {
+            flex-shrink: 0;
+        }
+        
+        /* Browse Button */
+        .btn-browse {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #F26522 0%, #D95518 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-browse:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(242, 101, 34, 0.3);
+        }
+        .btn-browse svg {
+            flex-shrink: 0;
+        }
+        
+        /* FTP Instructions */
+        .ftp-instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .instruction-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .instruction-step:last-child {
+            margin-bottom: 0;
+        }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #F26522 0%, #D95518 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .step-content strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .step-content p {
+            color: #6c757d;
+            font-size: 13px;
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        .step-content code {
+            display: block;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #F26522;
+            margin-top: 8px;
+            border: 1px solid #dee2e6;
+        }
     </style>
 </head>
 <body>
@@ -278,10 +537,39 @@ if ($nivel_usuario < 2) {
                 </div>
 
                 <div class="form-group">
-                    <label>PDF *</label>
-                    <input type="file" id="pdfFile" accept="application/pdf">
+                    <label>PDF do Catálogo *</label>
+                    
+                    <button type="button" id="btnUploadLargePdf" class="btn-browse">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Escolher PDF
+                    </button>
+                    <input type="file" id="pdfFileLarge" accept="application/pdf" style="display: none;">
+                    
+                    <div id="uploadProgress" style="display: none; margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; color: #666;">
+                            <span id="uploadProgressText">Enviando...</span>
+                            <span id="uploadProgressPercent">0%</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
+                            <div id="uploadProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #F26522 0%, #D95518 100%); transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>
+                    
+                    <p class="help-text" style="margin-top: 10px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        Sem limite de tamanho - upload dividido em partes de 1MB
+                    </p>
+                    
                     <input type="hidden" id="pdfPath">
-                    <p id="pdfFileName" style="font-size: 12px; color: #666; margin-top: 5px;"></p>
+                    <p id="pdfFileName" class="selected-file"></p>
                 </div>
 
                 <button type="submit" class="btn-primary">Guardar</button>

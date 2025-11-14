@@ -15,10 +15,13 @@ try {
     $stmt = $db->query("SELECT ID, Imagem, Nome, Descricao, PDF FROM Categoria ORDER BY ID ASC");
     $catalogo = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Garantir que os caminhos das imagens começam com /
+    // Garantir que os caminhos das imagens e PDFs começam com /
     foreach ($catalogo as &$item) {
         if (!empty($item['Imagem']) && $item['Imagem'][0] !== '/') {
             $item['Imagem'] = '/' . $item['Imagem'];
+        }
+        if (!empty($item['PDF']) && $item['PDF'][0] !== '/') {
+            $item['PDF'] = '/' . $item['PDF'];
         }
     }
     

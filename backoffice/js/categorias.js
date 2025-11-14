@@ -13,7 +13,12 @@ const catalogoId = document.getElementById('catalogoId');
 const imagemFile = document.getElementById('imagemFile');
 const imagePreview = document.getElementById('imagePreview');
 const imagemPath = document.getElementById('imagemPath');
-const pdfFile = document.getElementById('pdfFile');
+const btnUploadLargePdf = document.getElementById('btnUploadLargePdf');
+const pdfFileLarge = document.getElementById('pdfFileLarge');
+const uploadProgress = document.getElementById('uploadProgress');
+const uploadProgressBar = document.getElementById('uploadProgressBar');
+const uploadProgressPercent = document.getElementById('uploadProgressPercent');
+const uploadProgressText = document.getElementById('uploadProgressText');
 const pdfPath = document.getElementById('pdfPath');
 const pdfFileName = document.getElementById('pdfFileName');
 const nome = document.getElementById('nome');
@@ -56,17 +61,19 @@ imagemFile.addEventListener('change', async (e) => {
     await uploadImage(file);
 });
 
-// Upload de PDF
-pdfFile.addEventListener('change', async (e) => {
+// Botão upload PDF
+btnUploadLargePdf.addEventListener('click', () => {
+    pdfFileLarge.click();
+});
+
+// Upload de PDF (chunked)
+pdfFileLarge.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Mostrar nome do arquivo
-    pdfFileName.textContent = `Arquivo selecionado: ${file.name}`;
-    
-    // Upload PDF
-    await uploadPdf(file);
+    await uploadPdfChunked(file);
 });
+
 
 // Submit formulário
 catalogoForm.addEventListener('submit', async (e) => {
@@ -78,18 +85,22 @@ catalogoForm.addEventListener('submit', async (e) => {
     const imagemVal = imagemPath.value || uploadedImagePath;
     const pdfVal = pdfPath.value || uploadedPdfPath;
     
+    console.log('Submit - Nome:', nomeVal);
+    console.log('Submit - Imagem:', imagemVal);
+    console.log('Submit - PDF:', pdfVal);
+    
     if (!nomeVal) {
         showError('Por favor, preencha o nome do card');
         return;
     }
     
     if (!imagemVal) {
-        showError('Por favor, faça upload da imagem');
+        showError('Por favor, faça upload da imagem primeiro');
         return;
     }
     
     if (!pdfVal) {
-        showError('Por favor, faça upload do PDF');
+        showError('Por favor, faça upload do PDF primeiro');
         return;
     }
     
@@ -99,6 +110,8 @@ catalogoForm.addEventListener('submit', async (e) => {
         imagem: imagemVal,
         pdf: pdfVal
     };
+    
+    console.log('Enviando dados:', data);
     
     if (id) {
         data.id = id;
@@ -157,6 +170,8 @@ function renderCatalogo(items) {
 // Upload imagem
 async function uploadImage(file) {
     try {
+        console.log('Iniciando upload de imagem:', file.name, file.type, file.size);
+        
         const formData = new FormData();
         formData.append('imagem', file);
         
@@ -165,24 +180,37 @@ async function uploadImage(file) {
             body: formData
         });
         
+        console.log('Resposta do upload:', response.status);
+        
         const result = await response.json();
+        console.log('Resultado do upload:', result);
         
         if (result.success) {
             uploadedImagePath = result.path;
             imagemPath.value = result.path;
+            console.log('Imagem carregada com sucesso:', uploadedImagePath);
             showSuccess('Imagem enviada com sucesso');
         } else {
+            console.error('Erro no upload:', result.message);
             showError(result.message || 'Erro ao enviar imagem');
+            // Limpar preview em caso de erro
+            imagePreview.style.display = 'none';
+            imagemFile.value = '';
         }
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro no upload:', error);
         showError('Erro ao enviar imagem');
+        // Limpar preview em caso de erro
+        imagePreview.style.display = 'none';
+        imagemFile.value = '';
     }
 }
 
 // Upload PDF
 async function uploadPdf(file) {
     try {
+        console.log('Iniciando upload de PDF:', file.name, file.type, file.size);
+        
         const formData = new FormData();
         formData.append('pdf', file);
         
@@ -191,18 +219,29 @@ async function uploadPdf(file) {
             body: formData
         });
         
+        console.log('Resposta do upload PDF:', response.status);
+        
         const result = await response.json();
+        console.log('Resultado do upload PDF:', result);
         
         if (result.success) {
             uploadedPdfPath = result.path;
             pdfPath.value = result.path;
+            console.log('PDF carregado com sucesso:', uploadedPdfPath);
             showSuccess('PDF enviado com sucesso');
         } else {
+            console.error('Erro no upload PDF:', result.message);
             showError(result.message || 'Erro ao enviar PDF');
+            // Limpar em caso de erro
+            pdfFileName.textContent = '';
+            pdfFile.value = '';
         }
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro no upload PDF:', error);
         showError('Erro ao enviar PDF');
+        // Limpar em caso de erro
+        pdfFileName.textContent = '';
+        pdfFile.value = '';
     }
 }
 
@@ -322,9 +361,10 @@ function openModal() {
     imagePreview.style.display = 'none';
     uploadedImagePath = '';
     pdfPath.value = '';
-    pdfFile.value = '';
+    pdfFileLarge.value = '';
     pdfFileName.textContent = '';
     uploadedPdfPath = '';
+    uploadProgress.style.display = 'none';
     modalTitle.textContent = 'Adicionar Card';
     modal.classList.add('show');
 }
@@ -349,6 +389,76 @@ function showError(message) {
     successAlert.classList.remove('show');
     setTimeout(() => errorAlert.classList.remove('show'), 5000);
 }
+
+
+// Upload de PDF em chunks (para arquivos grandes)
+async function uploadPdfChunked(file) {
+    const chunkSize = 1024 * 1024; // 1MB por chunk
+    const chunks = Math.ceil(file.size / chunkSize);
+    
+    uploadProgress.style.display = 'block';
+    uploadProgressText.textContent = `Enviando ${file.name}...`;
+    uploadProgressPercent.textContent = '0%';
+    uploadProgressBar.style.width = '0%';
+    
+    try {
+        for (let chunk = 0; chunk < chunks; chunk++) {
+            const start = chunk * chunkSize;
+            const end = Math.min(start + chunkSize, file.size);
+            const chunkBlob = file.slice(start, end);
+            
+            const formData = new FormData();
+            formData.append('file', chunkBlob);
+            formData.append('chunk', chunk);
+            formData.append('chunks', chunks);
+            formData.append('filename', file.name);
+            
+            const response = await fetch('api/catalogo/upload-pdf-chunked.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.message || 'Erro no upload');
+            }
+            
+            // Atualizar progresso
+            const progress = Math.round(((chunk + 1) / chunks) * 100);
+            uploadProgressPercent.textContent = `${progress}%`;
+            uploadProgressBar.style.width = `${progress}%`;
+            
+            // Se é o último chunk, o upload está completo
+            if (chunk === chunks - 1 && result.path) {
+                uploadedPdfPath = result.path;
+                pdfPath.value = result.path;
+                
+                uploadProgressText.textContent = '✓ Upload completo!';
+                
+                pdfFileName.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    PDF enviado: ${result.filename} (${result.size_mb} MB)
+                `;
+                
+                showSuccess(`PDF enviado com sucesso! (${result.size_mb} MB)`);
+                
+                // Esconder barra de progresso após 2 segundos
+                setTimeout(() => {
+                    uploadProgress.style.display = 'none';
+                }, 2000);
+            }
+        }
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        uploadProgress.style.display = 'none';
+        showError(error.message || 'Erro ao enviar PDF');
+    }
+}
+
 
 // Expor funções globalmente
 window.editCatalogo = editCatalogo;

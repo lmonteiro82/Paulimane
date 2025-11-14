@@ -19,7 +19,7 @@ async function checkUserAccess() {
         
         if (!data.success || !data.user) {
             // Não autenticado - redirecionar para login
-            window.location.href = 'login.html';
+            window.location.href = 'login.php';
             return;
         }
         
@@ -58,7 +58,7 @@ function adjustSidebarByLevel(nivel) {
         if (!href) return;
         
         // Extrair nome da página do href
-        const pagina = href.replace('.html', '').split('/').pop();
+        const pagina = href.replace('.php', '').replace('.html', '').split('/').pop();
         
         // Verificar se o usuário tem acesso
         if (!paginasPermitidas.includes(pagina)) {
@@ -75,7 +75,7 @@ function adjustSidebarByLevel(nivel) {
  * Verifica se o usuário pode acessar a página atual
  */
 function checkCurrentPageAccess(nivel) {
-    const paginaAtual = window.location.pathname.split('/').pop().replace('.html', '');
+    const paginaAtual = window.location.pathname.split('/').pop().replace('.php', '').replace('.html', '');
     
     const nivelPorPagina = {
         'textos': 1,
@@ -92,7 +92,7 @@ function checkCurrentPageAccess(nivel) {
     if (nivelNecessario) {
         // Nível 3 tem acesso a tudo
         if (nivel < 3 && nivel < nivelNecessario) {
-            window.location.href = 'acesso-negado.html';
+            window.location.href = 'acesso-negado.php';
         }
     }
 }

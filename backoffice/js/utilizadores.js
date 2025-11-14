@@ -19,8 +19,15 @@ const successMessage = document.getElementById('successMessage');
 const errorMessage = document.getElementById('errorMessage');
 const modalTitle = document.getElementById('modalTitle');
 const passwordHelp = document.getElementById('passwordHelp');
+const userImageInput = document.getElementById('userImage');
+const userImagePreview = document.getElementById('userImagePreviewImg');
+const userImagePlaceholder = document.getElementById('userImagePlaceholder');
+const btnSelectImage = document.getElementById('btnSelectImage');
+const btnRemoveImage = document.getElementById('btnRemoveImage');
+const userImagePath = document.getElementById('userImagePath');
 
 let editingUserId = null;
+let uploadedImagePath = null;
 
 // Carregar utilizadores ao iniciar
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,11 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Abrir modal para novo utilizador
 btnNewUser.addEventListener('click', () => {
     editingUserId = null;
+    uploadedImagePath = null;
     modalTitle.textContent = 'Novo Utilizador';
     userForm.reset();
     document.getElementById('userId').value = '';
     document.getElementById('userPassword').required = true;
     passwordHelp.style.display = 'none';
+    resetImagePreview();
     openModal();
 });
 
@@ -49,6 +58,84 @@ userModal.addEventListener('click', (e) => {
     }
 });
 
+// Eventos de upload de imagem
+btnSelectImage.addEventListener('click', () => {
+    userImageInput.click();
+});
+
+userImageInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        // Validar tipo de ficheiro
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            showError('Tipo de ficheiro não permitido. Use JPG, PNG, GIF ou WEBP');
+            return;
+        }
+        
+        // Validar tamanho (máx 5MB)
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+            showError('Imagem muito grande. Máximo 5MB');
+            return;
+        }
+        
+        // Preview da imagem
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            userImagePreview.src = e.target.result;
+            userImagePreview.style.display = 'block';
+            userImagePlaceholder.style.display = 'none';
+            btnRemoveImage.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+        
+        // Upload da imagem
+        await uploadUserImage(file);
+    }
+});
+
+btnRemoveImage.addEventListener('click', () => {
+    resetImagePreview();
+    uploadedImagePath = null;
+    userImagePath.value = '';
+});
+
+function resetImagePreview() {
+    userImageInput.value = '';
+    userImagePreview.src = '';
+    userImagePreview.style.display = 'none';
+    userImagePlaceholder.style.display = 'flex';
+    btnRemoveImage.style.display = 'none';
+}
+
+async function uploadUserImage(file) {
+    try {
+        const formData = new FormData();
+        formData.append('imagem', file);
+        
+        const response = await fetch('api/users/upload.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            uploadedImagePath = data.path;
+            userImagePath.value = data.path;
+            console.log('Imagem carregada:', uploadedImagePath);
+        } else {
+            showError(data.message || 'Erro ao fazer upload da imagem');
+            resetImagePreview();
+        }
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        showError('Erro ao fazer upload da imagem');
+        resetImagePreview();
+    }
+}
+
 // Submit do formulário
 userForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -58,7 +145,8 @@ userForm.addEventListener('submit', async (e) => {
         email: document.getElementById('userEmail').value.trim(),
         password: document.getElementById('userPassword').value,
         nivel: document.getElementById('userNivel').value,
-        ativo: document.getElementById('userStatus').value
+        ativo: document.getElementById('userStatus').value,
+        imagem: uploadedImagePath || userImagePath.value || ''
     };
 
     // Validações
@@ -202,6 +290,7 @@ async function editUser(id) {
 
         if (data.success && data.user) {
             editingUserId = id;
+            uploadedImagePath = data.user.Imagem || null;
             modalTitle.textContent = 'Editar Utilizador';
             
             document.getElementById('userId').value = data.user.ID;
@@ -211,6 +300,17 @@ async function editUser(id) {
             document.getElementById('userPassword').required = false;
             document.getElementById('userNivel').value = data.user.Nivel || 1;
             document.getElementById('userStatus').value = data.user.Ativo;
+            
+            // Carregar imagem se existir
+            if (data.user.Imagem) {
+                userImagePath.value = data.user.Imagem;
+                userImagePreview.src = data.user.Imagem;
+                userImagePreview.style.display = 'block';
+                userImagePlaceholder.style.display = 'none';
+                btnRemoveImage.style.display = 'block';
+            } else {
+                resetImagePreview();
+            }
             
             passwordHelp.style.display = 'block';
             

@@ -245,6 +245,78 @@ if ($nivel_usuario < 3) {
             border-color: #F26522;
         }
 
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f8f9fa;
+            position: relative;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: #999;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .image-placeholder svg {
+            opacity: 0.5;
+        }
+
+        .image-placeholder span {
+            font-size: 12px;
+        }
+
+        .btn-upload, .btn-remove {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+
+        .btn-upload {
+            background: #F26522;
+            color: white;
+        }
+
+        .btn-upload:hover {
+            background: #D95518;
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background: #c82333;
+        }
+
         .modal-footer {
             display: flex;
             gap: 12px;
@@ -415,6 +487,29 @@ if ($nivel_usuario < 3) {
 
             <form id="userForm">
                 <input type="hidden" id="userId">
+                <input type="hidden" id="userImagePath">
+                
+                <div class="form-group">
+                    <label for="userImage">Foto de Perfil</label>
+                    <div class="image-upload-container">
+                        <div class="image-preview" id="userImagePreview">
+                            <img id="userImagePreviewImg" src="" alt="Preview" style="display: none;">
+                            <div class="image-placeholder" id="userImagePlaceholder">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 8v8m-4-4h8"></path>
+                                </svg>
+                                <span>Adicionar foto</span>
+                            </div>
+                        </div>
+                        <input type="file" id="userImage" name="imagem" accept="image/*" style="display: none;">
+                        <button type="button" class="btn-upload" id="btnSelectImage">Escolher Imagem</button>
+                        <button type="button" class="btn-remove" id="btnRemoveImage" style="display: none;">Remover</button>
+                        <small style="color: #999; font-size: 12px; margin-top: 8px; display: block;">
+                            Formatos aceites: JPG, PNG, GIF, WEBP (máx. 5MB)
+                        </small>
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <label for="userName">Nome *</label>

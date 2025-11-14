@@ -24,7 +24,7 @@ async function loadProducts() {
 function renderProducts(products) {
     productsGrid.innerHTML = products.map(product => {
         // Sempre abrir o PDF em nova aba
-        const href = product.PDF ? `/${product.PDF}` : '#';
+        const href = product.PDF ? product.PDF : '#';
         
         return `
             <a href="${href}" target="_blank" class="product-card" data-category="all" style="text-decoration: none; color: inherit; cursor: pointer;">
@@ -57,6 +57,16 @@ function setupSearch() {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
+
+            // Se o campo estiver vazio, mostrar todos os produtos
+            if (!searchTerm) {
+                productCards.forEach(card => {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                });
+                return;
+            }
 
             productCards.forEach(card => {
                 const productName = card.querySelector('.product-name').textContent.toLowerCase();

@@ -45,7 +45,7 @@ try {
     $db = getDBConnection();
     
     $stmt = $db->prepare("
-        SELECT ID, Nome, Email, Ativo 
+        SELECT ID, Nome, Email, Ativo, Imagem 
         FROM Utilizador 
         WHERE ID = :id 
         LIMIT 1
@@ -75,7 +75,8 @@ try {
         'user' => [
             'id' => $user['ID'],
             'email' => $user['Email'],
-            'nome' => $user['Nome']
+            'nome' => $user['Nome'],
+            'imagem' => $user['Imagem'] ?? ''
         ]
     ]);
 

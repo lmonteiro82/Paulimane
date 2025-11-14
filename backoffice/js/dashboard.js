@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     
     // If no token, redirect to login
     if (!authToken) {
-        window.location.href = 'login.html';
+        window.location.href = 'login.php';
         return;
     }
 
@@ -22,20 +22,31 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (!data.success || !data.authenticated) {
             // Token inválido ou expirado
             sessionStorage.clear();
-            window.location.href = 'login.html';
+            window.location.href = 'login.php';
             return;
         }
 
         // Atualizar informações do utilizador na interface
         const userName = document.querySelector('.user-name');
+        const userAvatar = document.querySelector('.user-avatar');
+        
         if (userName && data.user) {
             userName.textContent = data.user.nome;
+        }
+        
+        // Atualizar avatar com foto de perfil
+        if (userAvatar && data.user) {
+            if (data.user.imagem) {
+                // Se tem imagem, mostrar a foto
+                userAvatar.innerHTML = `<img src="${data.user.imagem}" alt="${data.user.nome}">`;
+            }
+            // Se não tem imagem, manter o ícone SVG padrão que já está no HTML
         }
 
     } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
         // Em caso de erro, redirecionar para login
-        window.location.href = 'login.html';
+        window.location.href = 'login.php';
     }
 });
 
@@ -90,7 +101,7 @@ if (logoutBtn) {
             localStorage.removeItem('paulimane_username');
             
             // Redirect to login
-            window.location.href = 'login.html';
+            window.location.href = 'login.php';
         }
     });
 }

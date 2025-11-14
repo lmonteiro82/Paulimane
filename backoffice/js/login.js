@@ -124,7 +124,7 @@ function showSuccessAndRedirect() {
     // Redirecionar após 1 segundo
     setTimeout(() => {
         // Redirecionar para gestão de utilizadores
-        window.location.href = 'utilizadores.html';
+        window.location.href = 'utilizadores.php';
     }, 1000);
 }
 
@@ -135,7 +135,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     if (authToken || rememberMe) {
         // User is already logged in, redirect to utilizadores
-        // window.location.href = 'utilizadores.html';
+        // window.location.href = 'utilizadores.php';
     }
     
     // Auto-fill username if remembered
