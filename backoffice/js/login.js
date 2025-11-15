@@ -123,8 +123,8 @@ function showSuccessAndRedirect() {
     
     // Redirecionar após 1 segundo
     setTimeout(() => {
-        // Redirecionar para gestão de utilizadores
-        window.location.href = 'utilizadores.php';
+        // Redirecionar para o dashboard principal (acessível a todos os níveis)
+        window.location.href = 'index.php';
     }, 1000);
 }
 
