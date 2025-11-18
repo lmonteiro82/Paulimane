@@ -87,7 +87,7 @@ try {
     <meta property="og:url" content="https://www.paulimane.pt/">
     <meta property="og:title" content="Paulimane - Ferragens Manuel Carmo & Azevedo">
     <meta property="og:description" content="Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.">
-    <meta property="og:image" content="https://www.paulimane.pt/images/logo.png">
+    <meta property="og:image" content="https://www.paulimane.pt/images/logooriginal.png">
     <meta property="og:locale" content="pt_PT">
     
     <!-- Twitter -->
@@ -95,7 +95,7 @@ try {
     <meta property="twitter:url" content="https://www.paulimane.pt/">
     <meta property="twitter:title" content="Paulimane - Ferragens Manuel Carmo & Azevedo">
     <meta property="twitter:description" content="Empresa portuguesa especializada em ferragens de alta qualidade desde 2000.">
-    <meta property="twitter:image" content="https://www.paulimane.pt/images/logo.png">
+    <meta property="twitter:image" content="https://www.paulimane.pt/images/logooriginal.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.paulimane.pt/">
@@ -104,11 +104,11 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="images/logo.png?v=2" type="image/png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png?v=2">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png?v=2">
-    <link rel="shortcut icon" href="/images/logo.png?v=2">
-    <link rel="apple-touch-icon" href="/images/logo.png?v=2">
+    <link rel="icon" href="images/logooriginal.png?v=2" type="image/png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logooriginal.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/logooriginal.png?v=2">
+    <link rel="shortcut icon" href="/images/logooriginal.png?v=2">
+    <link rel="apple-touch-icon" href="/images/logooriginal.png?v=2">
     
     <!-- Sistema de Proteção - DEVE SER O PRIMEIRO SCRIPT -->
     <script src="js/auth-protection.js"></script>
@@ -119,7 +119,7 @@ try {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "Paulimane - Ferragens Manuel Carmo & Azevedo, Lda",
-        "image": "https://www.paulimane.pt/images/logo.png",
+        "image": "https://www.paulimane.pt/images/logooriginal.png",
         "description": "Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
         "address": {
             "@type": "PostalAddress",
@@ -140,7 +140,7 @@ try {
             <div class="nav-wrapper">
                 <div class="logo">
                     <a href="index.php">
-                        <img src="images/logo.png" alt="Paulimane Logo">
+                        <img src="images/logooriginal.png" alt="Paulimane Logo">
                     </a>
                 </div>
                 <div class="nav-menu" id="navMenu">
@@ -172,7 +172,7 @@ try {
                         <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&h=900&fit=crop" alt="Paulimane">
                     </video>
                     -->
-                    <img src="https://scontent.fopo4-1.fna.fbcdn.net/v/t39.30808-6/489357416_1214569440671006_6624947103517476282_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=TmXZg8fWmM0Q7kNvwH6zIWP&_nc_oc=Adm11eorO-z-6SCymyOCAXg0-_YrYD_o5NTiMW1fnPkiVwmK6pGMnxqn8JuELXRTTAo&_nc_zt=23&_nc_ht=scontent.fopo4-1.fna&_nc_gid=MCPd9sTchrpduF_EQL2HGA&oh=00_Afiggrb1h7tUiPPWDa_MkkgEXtVlfEjDWxAT5PjFyj6H0A&oe=691C0C89" alt="Paulimane">
+                    <img src="images/primeira.jpg" alt="Paulimane">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title-large">NOVO CATÁLOGO<br>ONLINE</h1>
@@ -186,7 +186,7 @@ try {
                 </div>
                 <!-- Slide 2: Imagem -->
                 <div class="carousel-slide">
-                    <img src="https://scontent.fopo4-1.fna.fbcdn.net/v/t39.30808-6/530360053_1328686195925996_8822294292584945798_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=tdvZy4TahMcQ7kNvwFQfV-F&_nc_oc=AdmXcpzCrOBy5Hse2NJ3es5K6NOzUakJCWIAFiT2yTnvKv1PRACy4zw5128gNk5rNJI&_nc_zt=23&_nc_ht=scontent.fopo4-1.fna&_nc_gid=CerWu3F4Uv6CP_EuxHWWXQ&oh=00_Afgla1Job8iV8GLA9b5NSCjs18w0155bIAgnGrmcadTNlA&oe=691C0031" alt="Ferragens profissionais">
+                    <img src="images/segunda.jpeg" alt="Ferragens profissionais">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Qualidade Superior</h1>
@@ -197,7 +197,7 @@ try {
                 </div>
                 <!-- Slide 3: Imagem -->
                 <div class="carousel-slide">
-                    <img src="https://scontent.fopo4-2.fna.fbcdn.net/v/t39.30808-6/488896532_1215477440580206_6563268766663959778_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HOpaRurs6d8Q7kNvwGMbIoo&_nc_oc=AdnBcY-SAVwPeZf1-Mcp4yoBtaZ9GuvkZQT_AJsWwSp6pCMH9KqObe6sqKz2TCyyIF0&_nc_zt=23&_nc_ht=scontent.fopo4-2.fna&_nc_gid=qDmIaNIS7ssK1llMS1ew1g&oh=00_Afib6hW5MWicYUsKOtyi4rYS4QuOkGFqs_YZ_yb-Lufspg&oe=691C1475" alt="Soluções Paulimane">
+                    <img src="images/terceira.jpg" alt="Soluções Paulimane">
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Soluções Completas</h1>
@@ -353,7 +353,6 @@ try {
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <img src="images/logo.png" alt="Paulimane" class="footer-logo">
                     <p class="footer-text">
                         A melhor seleção em ferragens desde 2000
                     </p>

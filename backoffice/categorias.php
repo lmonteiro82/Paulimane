@@ -27,7 +27,7 @@ if ($nivel_usuario < 2) {
     <title>Gestão de Categorias | Paulimane Backoffice</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="../images/logo.png?v=2" type="image/png">
+    <link rel="icon" href="../images/logooriginal.png?v=2" type="image/png">
     <style>
         .catalog-grid {
             display: grid;
@@ -565,7 +565,7 @@ if ($nivel_usuario < 2) {
                             <line x1="12" y1="16" x2="12" y2="12"></line>
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
-                        Sem limite de tamanho - upload dividido em partes de 1MB
+                        Sem limite de tamanho
                     </p>
                     
                     <input type="hidden" id="pdfPath">

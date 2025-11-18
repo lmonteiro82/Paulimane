@@ -127,7 +127,7 @@ As cores principais podem ser alteradas no ficheiro CSS através das variáveis 
 ```
 
 ### Logo
-Substitua o ficheiro `../images/logo.png` pelo logo da sua empresa.
+Substitua o ficheiro `../images/logooriginal.png` pelo logo da sua empresa.
 
 ## 🔄 Próximos Passos
 

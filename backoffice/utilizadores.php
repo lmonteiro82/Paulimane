@@ -29,7 +29,7 @@ if ($nivel_usuario < 3) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="../images/logo.png?v=2" type="image/png">
+    <link rel="icon" href="../images/logooriginal.png?v=2" type="image/png">
     <style>
         .users-header {
             display: flex;

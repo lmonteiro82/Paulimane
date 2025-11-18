@@ -27,7 +27,7 @@ if ($nivel_usuario < 2) {
     <title>Gestão de Produtos | Paulimane Backoffice</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="../images/logo.png?v=2" type="image/png">
+    <link rel="icon" href="../images/logooriginal.png?v=2" type="image/png">
     <style>
         .catalog-grid {
             display: grid;

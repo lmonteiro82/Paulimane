@@ -45,13 +45,13 @@ Paulimane/
 │   ├── main.js         # JavaScript da página principal
 │   └── catalog.js      # JavaScript do catálogo
 ├── images/
-│   └── logo.png        # Logotipo da empresa
+│   └── logooriginal.png        # Logotipo da empresa
 └── README.md
 ```
 
 ## 🖼️ Imagens
 
-**IMPORTANTE:** Adicione o logotipo da empresa em `images/logo.png`
+**IMPORTANTE:** Adicione o logotipo da empresa em `images/logooriginal.png`
 
 As imagens de exemplo nos carrosséis e catálogo estão a usar Unsplash. Para produção, substitua por imagens reais da empresa.
 
@@ -88,7 +88,7 @@ O site é totalmente responsivo e adapta-se a:
 
 ## 🎯 Próximos Passos
 
-1. Adicionar o logotipo real em `images/logo.png`
+1. Adicionar o logotipo real em `images/logooriginal.png`
 2. Substituir imagens de placeholder por fotos reais
 3. Adicionar logotipos reais dos clientes
 4. Atualizar informações de contacto no footer
