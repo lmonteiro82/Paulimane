@@ -105,6 +105,10 @@ try {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" href="images/logo.png?v=2" type="image/png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png?v=2">
+    <link rel="shortcut icon" href="/images/logo.png?v=2">
+    <link rel="apple-touch-icon" href="/images/logo.png?v=2">
     
     <!-- Sistema de Proteção - DEVE SER O PRIMEIRO SCRIPT -->
     <script src="js/auth-protection.js"></script>
@@ -143,8 +147,8 @@ try {
                     <a href="#inicio" class="nav-link">Início</a>
                     <a href="#sobre" class="nav-link">Sobre Nós</a>
                     <a href="#equipa" class="nav-link">Equipa</a>
-                    <a href="#clientes" class="nav-link">Clientes</a>
                     <a href="#contacto" class="nav-link">Contacto</a>
+                    <a href="produtos.html" class="nav-link">Produtos</a>
                     <a href="catalogo.html" class="nav-btn">Catálogo</a>
                 </div>
                 <button class="hamburger" id="hamburger">
@@ -271,42 +275,6 @@ try {
                                     </div>
                                     <h3 class="team-name"><?php echo htmlspecialchars($member['Nome']); ?></h3>
                                     <p class="team-role"><?php echo htmlspecialchars($member['Funcao']); ?></p>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Clientes -->
-    <section id="clientes" class="clients-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Nossos Clientes</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    Empresas que confiam na qualidade Paulimane
-                </p>
-            </div>
-            <div class="clients-carousel-wrapper">
-                <div class="clients-carousel-track">
-                    <div class="clients-carousel" id="clientsCarousel">
-                        <?php if (empty($clientes)): ?>
-                            <p style="text-align: center; color: #999; width: 100%;">Nenhum cliente adicionado</p>
-                        <?php else: ?>
-                            <?php foreach ($clientes as $cliente): ?>
-                                <div class="client-logo">
-                                    <?php 
-                                    $imagePath = $cliente['imagem'];
-                                    // Garantir que o caminho começa com /
-                                    if (!empty($imagePath) && $imagePath[0] !== '/') {
-                                        $imagePath = '/' . $imagePath;
-                                    }
-                                    ?>
-                                    <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="<?php echo htmlspecialchars($cliente['Nome']); ?>" onerror="this.src='https://via.placeholder.com/200x100'">
-                                    <p class="client-name"><?php echo htmlspecialchars($cliente['Nome']); ?></p>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>

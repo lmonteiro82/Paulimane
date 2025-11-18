@@ -1,47 +1,99 @@
 /**
  * Produtos por Categoria - Frontend
+ * Mostra categorias primeiro, depois produtos ao clicar
  */
 
-let productCards = document.querySelectorAll('.product-card');
+let productCards = [];
+let allProducts = [];
+let categorias = [];
+let categoriaAtual = null;
+
 const searchInput = document.getElementById('searchInput');
 const productsGrid = document.getElementById('productsGrid');
+const categoriesGrid = document.getElementById('categoriesGrid');
 const categoryTitle = document.getElementById('categoryTitle');
 const categorySubtitle = document.getElementById('categorySubtitle');
+const btnVoltar = document.getElementById('btnVoltar');
+const categoriesSection = document.getElementById('categoriesSection');
+const productsSection = document.getElementById('productsSection');
+const searchSection = document.getElementById('searchSection');
 
-// Obter ID da categoria da URL
-const urlParams = new URLSearchParams(window.location.search);
-const categoriaId = urlParams.get('categoria');
-const categoriaNome = urlParams.get('nome');
+// Carregar categorias ao iniciar
+document.addEventListener('DOMContentLoaded', carregarCategorias);
 
-// Atualizar título se tiver nome da categoria
-if (categoriaNome) {
-    categoryTitle.textContent = categoriaNome;
-    categorySubtitle.textContent = `Produtos da categoria ${categoriaNome}`;
-}
-
-// Carregar produtos da base de dados
-async function loadProducts() {
+// Carregar categorias
+async function carregarCategorias() {
     try {
-        const url = categoriaId 
-            ? `api/produtos.php?categoria=${categoriaId}` 
-            : 'api/produtos.php';
-            
-        const response = await fetch(url);
+        const response = await fetch('api/catalogo.php');
         const result = await response.json();
         
         if (result.success && result.data.length > 0) {
-            renderProducts(result.data);
+            categorias = result.data;
+            renderizarCategorias(categorias);
+        } else {
+            categoriesGrid.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Nenhuma categoria disponível.</p>';
+        }
+    } catch (error) {
+        console.error('Erro ao carregar categorias:', error);
+        categoriesGrid.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 40px;">Erro ao carregar categorias.</p>';
+    }
+}
+
+// Renderizar categorias
+function renderizarCategorias(cats) {
+    categoriesGrid.innerHTML = cats.map(cat => `
+        <div class="product-card" onclick="verProdutosCategoria(${cat.ID}, '${cat.Nome}')" style="cursor: pointer;">
+            <div class="product-image">
+                <img src="${cat.Imagem}" alt="${cat.Nome}" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+Imagem'">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">${cat.Nome}</h3>
+                <p class="product-description">${cat.Descricao || 'Clique para ver produtos'}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Ver produtos de uma categoria
+async function verProdutosCategoria(categoriaId, categoriaNome) {
+    categoriaAtual = { id: categoriaId, nome: categoriaNome };
+    
+    // Atualizar título
+    categoryTitle.textContent = categoriaNome;
+    categorySubtitle.textContent = 'Produtos desta categoria';
+    
+    // Mostrar seção de produtos e esconder categorias
+    categoriesSection.style.display = 'none';
+    productsSection.style.display = 'block';
+    searchSection.style.display = 'block';
+    btnVoltar.style.display = 'inline-block';
+    
+    // Carregar produtos
+    await carregarProdutos(categoriaId);
+}
+
+// Carregar produtos de uma categoria
+async function carregarProdutos(categoriaId) {
+    try {
+        productsGrid.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #999;"><p>A carregar produtos...</p></div>';
+        
+        const response = await fetch(`api/produtos.php?categoria=${categoriaId}`);
+        const result = await response.json();
+        
+        if (result.success && result.data.length > 0) {
+            allProducts = result.data;
+            renderizarProdutos(allProducts);
         } else {
             productsGrid.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Nenhum produto disponível nesta categoria.</p>';
         }
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
-        productsGrid.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 40px;">Erro ao carregar produtos. Por favor, tente novamente.</p>';
+        productsGrid.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 40px;">Erro ao carregar produtos.</p>';
     }
 }
 
 // Renderizar produtos
-function renderProducts(products) {
+function renderizarProdutos(products) {
     productsGrid.innerHTML = products.map(product => `
         <div class="product-card" data-category="all">
             <div class="product-image">
@@ -59,48 +111,41 @@ function renderProducts(products) {
     
     // Adicionar animações aos novos cards
     addProductAnimations();
+}
+
+// Voltar às categorias
+btnVoltar.addEventListener('click', () => {
+    categoriaAtual = null;
+    categoryTitle.textContent = 'Produtos';
+    categorySubtitle.textContent = 'Selecione uma categoria para ver os produtos';
     
-    // Reativar pesquisa
-    setupSearch();
-}
+    categoriesSection.style.display = 'block';
+    productsSection.style.display = 'none';
+    searchSection.style.display = 'none';
+    btnVoltar.style.display = 'none';
+    
+    searchInput.value = '';
+});
 
-// Carregar produtos ao iniciar
-document.addEventListener('DOMContentLoaded', loadProducts);
+// Expor função globalmente
+window.verProdutosCategoria = verProdutosCategoria;
 
-// Configurar pesquisa
-function setupSearch() {
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-
-            // Se o campo estiver vazio, mostrar todos os produtos
-            if (!searchTerm) {
-                productCards.forEach(card => {
-                    card.style.display = 'block';
-                    card.style.opacity = '1';
-                    card.style.transform = 'scale(1)';
-                });
-                return;
-            }
-
-            productCards.forEach(card => {
-                const productName = card.querySelector('.product-name').textContent.toLowerCase();
-
-                if (productName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                    card.style.opacity = '1';
-                    card.style.transform = 'scale(1)';
-                } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
+// Pesquisa de produtos
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    
+    if (!searchTerm) {
+        renderizarProdutos(allProducts);
+        return;
     }
-}
+    
+    const filtrados = allProducts.filter(p => 
+        p.Nome.toLowerCase().includes(searchTerm) || 
+        (p.Descricao && p.Descricao.toLowerCase().includes(searchTerm))
+    );
+    
+    renderizarProdutos(filtrados);
+});
 
 // Adicionar animações aos produtos
 function addProductAnimations() {

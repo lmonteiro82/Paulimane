@@ -10,8 +10,8 @@ $nivel_usuario = isset($_SESSION['user_nivel']) ? (int)$_SESSION['user_nivel'] :
 // Definir quais páginas cada nível pode acessar
 $paginas_nivel = [
     1 => ['textos', 'equipa', 'clientes'],
-    2 => ['textos', 'equipa', 'clientes', 'categorias', 'destaques'],
-    3 => ['utilizadores', 'textos', 'equipa', 'clientes', 'categorias', 'destaques']
+    2 => ['textos', 'equipa', 'clientes', 'categorias', 'produtos', 'destaques'],
+    3 => ['utilizadores', 'textos', 'equipa', 'clientes', 'categorias', 'produtos', 'destaques']
 ];
 
 $paginas_permitidas = $paginas_nivel[$nivel_usuario] ?? $paginas_nivel[1];
@@ -88,6 +88,18 @@ function podeVerLink($pagina, $paginas_permitidas) {
                 <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
             <span>Categorias</span>
+        </a>
+        <?php endif; ?>
+
+        <?php if (podeVerLink('produtos', $paginas_permitidas)): ?>
+        <a href="produtos.php" class="nav-item <?php echo $pagina_atual === 'produtos' ? 'active' : ''; ?>">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Produtos</span>
         </a>
         <?php endif; ?>
 

@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     
     // If no token, redirect to login
     if (!authToken) {
-        window.location.href = 'login.php';
+        window.location.href = 'login.html';
         return;
     }
 
@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (!data.success || !data.authenticated) {
             // Token inválido ou expirado
             sessionStorage.clear();
-            window.location.href = 'login.php';
+            window.location.href = 'login.html';
             return;
         }
 
@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
         // Em caso de erro, redirecionar para login
-        window.location.href = 'login.php';
+        window.location.href = 'login.html';
     }
 });
 
@@ -85,7 +85,7 @@ if (logoutBtn) {
         if (confirm('Tem a certeza que deseja sair?')) {
             try {
                 // Chamar API de logout
-                await fetch('api/logout.php', {
+                await fetch('/backoffice/api/logout.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ if (logoutBtn) {
             localStorage.removeItem('paulimane_username');
             
             // Redirect to login
-            window.location.href = 'login.php';
+            window.location.href = 'login.html';
         }
     });
 }

@@ -19,7 +19,7 @@ async function checkUserAccess() {
         
         if (!data.success || !data.user) {
             // Não autenticado - redirecionar para login
-            window.location.href = 'login.php';
+            window.location.href = 'login.html';
             return;
         }
         
@@ -43,8 +43,8 @@ function adjustSidebarByLevel(nivel) {
     // Definir páginas por nível
     const paginasPorNivel = {
         1: ['textos', 'equipa', 'clientes'],
-        2: ['textos', 'equipa', 'clientes', 'categorias', 'destaques'],
-        3: ['textos', 'equipa', 'clientes', 'categorias', 'destaques', 'utilizadores']
+        2: ['textos', 'equipa', 'clientes', 'categorias', 'produtos', 'destaques'],
+        3: ['textos', 'equipa', 'clientes', 'categorias', 'produtos', 'destaques', 'utilizadores']
     };
     
     const paginasPermitidas = paginasPorNivel[nivel] || paginasPorNivel[1];
@@ -82,6 +82,7 @@ function checkCurrentPageAccess(nivel) {
         'equipa': 1,
         'clientes': 1,
         'categorias': 2,
+        'produtos': 2,
         'destaques': 2,
         'utilizadores': 3
     };
@@ -114,6 +115,7 @@ function hasPermission(action) {
             'editar_equipa': 1,
             'editar_clientes': 1,
             'editar_categorias': 2,
+            'editar_produtos': 2,
             'editar_destaques': 2,
             'gerenciar_usuarios': 3
         };
