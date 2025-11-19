@@ -19,7 +19,10 @@ const productsSection = document.getElementById('productsSection');
 const searchSection = document.getElementById('searchSection');
 
 // Carregar categorias ao iniciar
-document.addEventListener('DOMContentLoaded', carregarCategorias);
+document.addEventListener('DOMContentLoaded', () => {
+    carregarCategorias();
+    setupSearch();
+});
 
 // Carregar categorias
 async function carregarCategorias() {
@@ -65,6 +68,7 @@ async function verProdutosCategoria(categoriaId, categoriaNome) {
     // Mostrar seção de produtos e esconder categorias
     categoriesSection.style.display = 'none';
     productsSection.style.display = 'block';
+    // manter barra de pesquisa visível sempre
     searchSection.style.display = 'block';
     btnVoltar.style.display = 'inline-block';
     
@@ -121,31 +125,85 @@ btnVoltar.addEventListener('click', () => {
     
     categoriesSection.style.display = 'block';
     productsSection.style.display = 'none';
-    searchSection.style.display = 'none';
+    // manter a barra de pesquisa visível nas categorias
+    searchSection.style.display = 'block';
     btnVoltar.style.display = 'none';
     
+    // limpar e disparar filtro para mostrar todas as categorias
     searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
 });
 
 // Expor função globalmente
 window.verProdutosCategoria = verProdutosCategoria;
 
-// Pesquisa de produtos
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    
-    if (!searchTerm) {
-        renderizarProdutos(allProducts);
-        return;
-    }
-    
-    const filtrados = allProducts.filter(p => 
-        p.Nome.toLowerCase().includes(searchTerm) || 
-        (p.Descricao && p.Descricao.toLowerCase().includes(searchTerm))
-    );
-    
-    renderizarProdutos(filtrados);
-});
+// Pesquisa unificada (categorias e produtos) com animação
+function setupSearch() {
+    if (!searchInput) return;
+
+    if (searchInput._searchSetup) return;
+    searchInput._searchSetup = true;
+
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        // Determinar contexto atual (categorias ou produtos)
+        const inProductsView = productsSection && productsSection.style.display !== 'none';
+        const targetContainer = inProductsView ? productsGrid : categoriesGrid;
+        const cards = targetContainer ? targetContainer.querySelectorAll('.product-card') : [];
+
+        if (!cards || cards.length === 0) return;
+
+        // Campo vazio: mostrar tudo e cancelar timeouts
+        if (!searchTerm) {
+            cards.forEach(card => {
+                if (card._hideTimeout) {
+                    clearTimeout(card._hideTimeout);
+                    card._hideTimeout = null;
+                }
+                card.dataset.visible = '1';
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            });
+            return;
+        }
+
+        cards.forEach(card => {
+            const nameEl = card.querySelector('.product-name');
+            const productName = nameEl ? nameEl.textContent.toLowerCase() : '';
+            const isMatch = productName.includes(searchTerm);
+
+            if (isMatch) {
+                if (card._hideTimeout) {
+                    clearTimeout(card._hideTimeout);
+                    card._hideTimeout = null;
+                }
+                card.dataset.visible = '1';
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            } else {
+                card.dataset.visible = '0';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+
+                if (card._hideTimeout) {
+                    clearTimeout(card._hideTimeout);
+                    card._hideTimeout = null;
+                }
+
+                const expectedTerm = searchTerm;
+                card._hideTimeout = setTimeout(() => {
+                    if (card.dataset.visible === '0' && searchInput.value.toLowerCase() === expectedTerm) {
+                        card.style.display = 'none';
+                    }
+                    card._hideTimeout = null;
+                }, 300);
+            }
+        });
+    });
+}
 
 // Adicionar animações aos produtos
 function addProductAnimations() {

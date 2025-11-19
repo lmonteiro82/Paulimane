@@ -58,9 +58,14 @@ function setupSearch() {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
 
-            // Se o campo estiver vazio, mostrar todos os produtos
+            // Se o campo estiver vazio, mostrar todos os produtos e cancelar timeouts
             if (!searchTerm) {
                 productCards.forEach(card => {
+                    if (card._hideTimeout) {
+                        clearTimeout(card._hideTimeout);
+                        card._hideTimeout = null;
+                    }
+                    card.dataset.visible = '1';
                     card.style.display = 'block';
                     card.style.opacity = '1';
                     card.style.transform = 'scale(1)';
@@ -70,16 +75,38 @@ function setupSearch() {
 
             productCards.forEach(card => {
                 const productName = card.querySelector('.product-name').textContent.toLowerCase();
+                const isMatch = productName.includes(searchTerm);
 
-                if (productName.includes(searchTerm)) {
+                if (isMatch) {
+                    // Cancelar qualquer timeout pendente e mostrar o card
+                    if (card._hideTimeout) {
+                        clearTimeout(card._hideTimeout);
+                        card._hideTimeout = null;
+                    }
+                    card.dataset.visible = '1';
                     card.style.display = 'block';
                     card.style.opacity = '1';
                     card.style.transform = 'scale(1)';
                 } else {
+                    // Marcar como não visível e iniciar animação de saída
+                    card.dataset.visible = '0';
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
+
+                    // Cancelar timeout anterior, se existir
+                    if (card._hideTimeout) {
+                        clearTimeout(card._hideTimeout);
+                        card._hideTimeout = null;
+                    }
+
+                    // Após a animação, esconder o card apenas se o termo ainda corresponder
+                    const expectedTerm = searchTerm;
+                    card._hideTimeout = setTimeout(() => {
+                        // Só esconder se continuar não visível e o termo não mudou
+                        if (card.dataset.visible === '0' && searchInput.value.toLowerCase() === expectedTerm) {
+                            card.style.display = 'none';
+                        }
+                        card._hideTimeout = null;
                     }, 300);
                 }
             });
