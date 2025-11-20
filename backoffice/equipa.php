@@ -4,13 +4,6 @@
  */
 session_start();
 
-// Verificar autenticação
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.html');
-    exit;
-}
-
-// Todos os níveis autenticados podem acessar equipa
 ?>
 <!DOCTYPE html>
 <html lang="pt">

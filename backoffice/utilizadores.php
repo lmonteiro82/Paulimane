@@ -4,20 +4,6 @@
  */
 session_start();
 
-// Verificar autenticação
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.html');
-    exit;
-}
-
-// Verificar nível de acesso
-$nivel_usuario = isset($_SESSION['user_nivel']) ? (int)$_SESSION['user_nivel'] : 1;
-
-// Apenas nível 3 pode acessar gestão de utilizadores
-if ($nivel_usuario < 3) {
-    header('Location: acesso-negado.html');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt">

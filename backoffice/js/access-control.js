@@ -18,8 +18,7 @@ async function checkUserAccess() {
         const data = await response.json();
         
         if (!data.success || !data.user) {
-            // Não autenticado - redirecionar para login
-            window.location.href = 'login.html';
+            // Público: não redirecionar
             return;
         }
         
@@ -91,10 +90,8 @@ function checkCurrentPageAccess(nivel) {
     
     // Se a página requer um nível específico
     if (nivelNecessario) {
-        // Nível 3 tem acesso a tudo
-        if (nivel < 3 && nivel < nivelNecessario) {
-            window.location.href = 'acesso-negado.php';
-        }
+        // Público: não redirecionar
+        return;
     }
 }
 

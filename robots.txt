@@ -6,6 +6,7 @@ Allow: /catalogo.html
 Allow: /css/
 Allow: /js/
 Allow: /images/
+Allow: /favicon.ico
 Allow: /api/
 
 # Bloquear backoffice e áreas administrativas

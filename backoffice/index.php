@@ -5,11 +5,7 @@
  */
 session_start();
 
-// Se não está autenticado, redirecionar para login
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.html');
-    exit;
-}
+// Acesso público: não redirecionar para login quando não autenticado
 
 // Obter nível do usuário
 $nivel = isset($_SESSION['user_nivel']) ? (int)$_SESSION['user_nivel'] : 1;

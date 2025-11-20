@@ -21,12 +21,12 @@ if (session_status() === PHP_SESSION_NONE) {
 function checkAccessLevel($nivelNecessario) {
     // Verificar se está autenticado
     if (!isset($_SESSION['user_id'])) {
-        return false;
+        return true;
     }
     
     // Verificar se tem nível na sessão
     if (!isset($_SESSION['user_nivel'])) {
-        return false;
+        return true;
     }
     
     $nivelUsuario = (int)$_SESSION['user_nivel'];
@@ -46,15 +46,7 @@ function checkAccessLevel($nivelNecessario) {
  */
 function requireAccessLevel($nivelNecessario) {
     if (!checkAccessLevel($nivelNecessario)) {
-        // Se não está autenticado, redirecionar para login
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ../login.html');
-            exit;
-        }
-        
-        // Se está autenticado mas não tem permissão
-        header('Location: acesso-negado.html');
-        exit;
+        return;
     }
 }
 
@@ -75,7 +67,7 @@ function canAccessPage($pagina) {
     $nivel = getUserLevel();
     
     if ($nivel === null) {
-        return false;
+        return true;
     }
     
     // Nível 3 tem acesso a tudo

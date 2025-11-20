@@ -2,11 +2,6 @@
 window.addEventListener('DOMContentLoaded', async () => {
     const authToken = sessionStorage.getItem('paulimane_auth_token');
     
-    // If no token, redirect to login
-    if (!authToken) {
-        window.location.href = 'login.html';
-        return;
-    }
 
     try {
         // Verificar se token ainda é válido
@@ -20,10 +15,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (!data.success || !data.authenticated) {
-            // Token inválido ou expirado
             sessionStorage.clear();
-            window.location.href = 'login.html';
-            return;
         }
 
         // Atualizar informações do utilizador na interface
@@ -45,8 +37,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error('Erro ao verificar autenticação:', error);
-        // Em caso de erro, redirecionar para login
-        window.location.href = 'login.html';
+        // Em caso de erro, permitir continuar sem redirecionar
     }
 });
 
@@ -100,7 +91,7 @@ if (logoutBtn) {
             localStorage.removeItem('paulimane_remember');
             localStorage.removeItem('paulimane_username');
             
-            // Redirect to login
+            // Redirect to backoffice login
             window.location.href = 'login.html';
         }
     });

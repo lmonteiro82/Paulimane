@@ -6,11 +6,7 @@
 
 session_start();
 
-// Verificar se está autenticado
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.html');
-    exit;
-}
+// Acesso público: não redirecionar para login quando não autenticado
 
 // Verificar nível de acesso baseado na página atual
 $pagina_atual = basename($_SERVER['PHP_SELF'], '.html');
@@ -28,14 +24,5 @@ $niveis_pagina = [
 // Obter nível do usuário
 $nivel_usuario = isset($_SESSION['user_nivel']) ? (int)$_SESSION['user_nivel'] : 1;
 
-// Verificar se a página requer um nível específico
-if (isset($niveis_pagina[$pagina_atual])) {
-    $nivel_necessario = $niveis_pagina[$pagina_atual];
-    
-    // Nível 3 tem acesso a tudo
-    if ($nivel_usuario < 3 && $nivel_usuario < $nivel_necessario) {
-        header('Location: acesso-negado.html');
-        exit;
-    }
-}
+// Acesso público: não redirecionar em caso de nível insuficiente
 ?>

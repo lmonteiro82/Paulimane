@@ -104,14 +104,16 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="images/logooriginal.png?v=2" type="image/png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/logooriginal.png?v=2">
+    <link rel="icon" href="/images/logooriginal.png?v=2" type="image/png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/logooriginal.png?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logooriginal.png?v=2">
+    <link rel="icon" type="image/png" sizes="48x48" href="/images/logooriginal.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/logooriginal.png?v=2">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="shortcut icon" href="/images/logooriginal.png?v=2">
     <link rel="apple-touch-icon" href="/images/logooriginal.png?v=2">
     
-    <!-- Sistema de Proteção - DEVE SER O PRIMEIRO SCRIPT -->
-    <script src="js/auth-protection.js"></script>
+    
     
     <!-- Structured Data (Schema.org) -->
     <script type="application/ld+json">

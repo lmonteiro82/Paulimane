@@ -8,8 +8,7 @@
     const authToken = sessionStorage.getItem('paulimane_site_auth');
     
     if (!authToken) {
-        // Não está autenticado, redirecionar para login
-        window.location.href = 'login.html';
+        // Público: sem redirecionamento
         return;
     }
 
@@ -26,9 +25,7 @@
             const data = await response.json();
 
             if (!data.success || !data.authenticated) {
-                // Token inválido ou expirado
                 sessionStorage.clear();
-                window.location.href = 'login.html';
                 return;
             }
 
