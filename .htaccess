@@ -13,28 +13,23 @@
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/manifest+json "access plus 1 week"
 </IfModule>
 
-# Redirecionar www para não-www (ou vice-versa)
-# Descomente a opção desejada:
-
-# Opção 1: Redirecionar www para não-www
-# RewriteEngine On
-# RewriteCond %{HTTP_HOST} ^www\.paulimane\.pt [NC]
-# RewriteRule ^(.*)$ https://paulimane.pt/$1 [L,R=301]
-
-# Opção 2: Redirecionar não-www para www
-# RewriteEngine On
-# RewriteCond %{HTTP_HOST} ^paulimane\.pt [NC]
-# RewriteRule ^(.*)$ https://www.paulimane.pt/$1 [L,R=301]
-
-# Forçar HTTPS
+# Forçar HTTPS e redirecionar para www
 RewriteEngine On
+
+# Redirecionar HTTP para HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirecionar não-www para www
+RewriteCond %{HTTP_HOST} ^paulimane\.pt [NC]
+RewriteRule ^(.*)$ https://www.paulimane.pt/$1 [L,R=301]
 
 # Página de erro 404 personalizada (opcional)
 # ErrorDocument 404 /404.html

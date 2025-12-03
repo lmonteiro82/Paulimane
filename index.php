@@ -104,14 +104,15 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="/images/logooriginal.png?v=2" type="image/png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/logooriginal.png?v=2">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/logooriginal.png?v=2">
-    <link rel="icon" type="image/png" sizes="48x48" href="/images/logooriginal.png?v=2">
-    <link rel="icon" type="image/png" sizes="192x192" href="/images/logooriginal.png?v=2">
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="shortcut icon" href="/images/logooriginal.png?v=2">
-    <link rel="apple-touch-icon" href="/images/logooriginal.png?v=2">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     
     
@@ -121,17 +122,28 @@ try {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "Paulimane - Ferragens Manuel Carmo & Azevedo, Lda",
-        "image": "https://www.paulimane.pt/images/logooriginal.png",
-        "description": "Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
+        "alternateName": "Paulimane",
+        "image": [
+            "https://www.paulimane.pt/images/logooriginal.png",
+            "https://www.paulimane.pt/images/android-chrome-512x512.png"
+        ],
+        "logo": "https://www.paulimane.pt/images/android-chrome-512x512.png",
+        "description": "Empresa portuguesa especializada em ferragens e tubagens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
         "address": {
             "@type": "PostalAddress",
-            "addressCountry": "PT"
+            "addressCountry": "PT",
+            "addressLocality": "Porto"
         },
         "url": "https://www.paulimane.pt",
-        "telephone": "+351-XXX-XXX-XXX",
+        "email": "paulimane2000@gmail.com",
+        "telephone": "+351227440671",
         "priceRange": "$$",
         "foundingDate": "2000",
-        "openingHours": "Mo-Fr 09:00-18:00"
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "sameAs": [
+            "https://www.facebook.com/paulimane2000/",
+            "https://www.instagram.com/paulimane_ferragens/"
+        ]
     }
     </script>
 </head>

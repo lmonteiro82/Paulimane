@@ -3,24 +3,24 @@
     <!-- Página Principal -->
     <url>
         <loc>https://www.paulimane.pt/</loc>
-        <lastmod>2025-01-12</lastmod>
+        <lastmod>2024-12-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+    
+    <!-- Produtos -->
+    <url>
+        <loc>https://www.paulimane.pt/produtos.html</loc>
+        <lastmod>2024-12-02</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
     </url>
     
     <!-- Catálogo -->
     <url>
         <loc>https://www.paulimane.pt/catalogo.html</loc>
-        <lastmod>2025-01-12</lastmod>
+        <lastmod>2024-12-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
-    </url>
-    
-    <!-- Login -->
-    <url>
-        <loc>https://www.paulimane.pt/login.html</loc>
-        <lastmod>2025-01-12</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.3</priority>
     </url>
 </urlset>
