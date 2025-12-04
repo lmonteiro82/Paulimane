@@ -14,11 +14,11 @@ try {
         $sobreNosTexto = $result['Texto'];
     } else {
         // Texto padrão caso não exista na BD
-        $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens e tubagens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em tubagens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
+        $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em ferragens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
     }
 } catch (Exception $e) {
     error_log("Erro ao carregar texto: " . $e->getMessage());
-    $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens e tubagens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em tubagens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
+    $sobreNosTexto = "A Paulimane - Ferragens Manuel Carmo & Azevedo, Lda é uma empresa portuguesa dedicada à comercialização de ferragens de alta qualidade desde o ano 2000.\n\nCom mais de duas décadas de experiência no mercado, especializamo-nos em fornecer soluções completas em ferragens industriais e ferragens para os mais diversos sectores, sempre com foco na excelência e satisfação dos nossos clientes.\n\nA nossa missão é oferecer produtos de qualidade superior, aliados a um serviço personalizado e profissional, garantindo que cada cliente encontre exatamente o que precisa para os seus projetos.";
 }
 
 // Dividir o texto em parágrafos
@@ -128,7 +128,7 @@ try {
             "https://www.paulimane.pt/images/android-chrome-512x512.png"
         ],
         "logo": "https://www.paulimane.pt/images/android-chrome-512x512.png",
-        "description": "Empresa portuguesa especializada em ferragens e tubagens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
+        "description": "Empresa portuguesa especializada em ferragens de alta qualidade desde 2000. Soluções completas para os mais diversos sectores.",
         "address": {
             "@type": "PostalAddress",
             "addressCountry": "PT",
@@ -204,7 +204,7 @@ try {
                     <div class="carousel-overlay carousel-overlay-left">
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Qualidade Superior</h1>
-                            <p class="hero-subtitle">Ferragens e tubagens de excelência</p>
+                            <p class="hero-subtitle">Ferragens de excelência</p>
                             <p class="hero-year">Mais de 23 anos de experiência</p>
                         </div>
                     </div>

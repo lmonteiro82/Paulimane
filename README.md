@@ -98,7 +98,7 @@ O site é totalmente responsivo e adapta-se a:
 ## 📞 Contacto
 
 **Paulimane - Ferragens Manuel Carmo & Azevedo, Lda**  
-A melhor seleção em tubagens desde 2000
+A melhor seleção em ferragens desde 2000
 
 ---
 
