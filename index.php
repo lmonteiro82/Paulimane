@@ -205,7 +205,7 @@ try {
                         <div class="carousel-content carousel-content-left">
                             <h1 class="hero-title">Qualidade Superior</h1>
                             <p class="hero-subtitle">Ferragens de excelência</p>
-                            <p class="hero-year">Mais de 23 anos de experiência</p>
+                            <p class="hero-year">25 anos de experiência</p>
                         </div>
                     </div>
                 </div>
